@@ -1,17 +1,22 @@
+import java.util.Stack;
 class Solution {
     public int[] solution(int[] numbers) {
+        Stack<Integer> stack = new Stack<>();
+        
         int[] answer = new int[numbers.length];
-        for(int i=0; i < numbers.length; i++){
-            answer[i] = -1;
-            int num = numbers[i];
-            for(int j=i+1; j < numbers.length; j++){
-                if (numbers[j] > num){
-                    answer[i] = numbers[j];
-                    break;
-                }
+        stack.push(0);
+        
+        for (int i = 1; i < numbers.length; i++) {
+            while (!stack.isEmpty() && numbers[stack.peek()] < numbers[i]) {
+                answer[stack.pop()] = numbers[i];
             }
-            
+            stack.push(i);
         }
+        
+        while (!stack.isEmpty()) {
+            answer[stack.pop()] = -1;
+        }
+        
         return answer;
     }
 }
