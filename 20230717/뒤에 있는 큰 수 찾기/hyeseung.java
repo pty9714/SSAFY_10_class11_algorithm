@@ -4,29 +4,21 @@ class Solution {
     
     public int[] solution(int[] numbers) {
         int[] answer = new int[numbers.length];
+        Arrays.fill(answer, -1); // -1 로 초기화
+        Stack<Integer> stack = new Stack<>();
         
-        // 배열 마지막 원소는 항상 -1
-        int last = numbers.length;
-        answer[last - 1] = -1;
-        
-        for(int i = last - 2; i >= 0; i--) {
-            for(int j = i + 1; j < last; j++){
-                // 뒷 수가 자신보다 크면 뒷 수
-                if(numbers[i] < numbers[j]) {
-                    answer[i] = numbers[j];
+        for(int i = answer.length - 1; i >= 0; i--) {
+            while(!stack.isEmpty()) {
+                // 뒷 수가 자신보다 크면 뒷 큰 수
+                if(stack.peek() > numbers[i]) {
+                    answer[i] = stack.peek();
                     break;
                 }
-                // 뒷 수가 자신과 같으면 뒷 수의 정답
-                else if(numbers[i] == numbers[j]) {
-                    answer[i] = answer[j];
-                    break;
-                }
-                // 뒷 수가 자신보다 작고 큰 뒷 수가 없으면 -1
-                else if(answer[j] == -1){
-                    answer[i] = -1;
-                    break;
-                }
+                // 뒷 수가 자신보다 작으면 pop
+                else stack.pop();
             }
+            // 뒷 수 스택에 push
+            stack.push(numbers[i]);
         }
         
         return answer;
