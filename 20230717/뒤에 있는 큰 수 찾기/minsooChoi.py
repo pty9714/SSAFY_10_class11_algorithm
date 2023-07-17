@@ -1,4 +1,3 @@
-```python
 def solution(numbers):
     sz = len(numbers)
     answer = [-1 for i in range(sz)]
@@ -10,7 +9,8 @@ def solution(numbers):
         temp.append(i)
 
     return answer
-```
+
+---
 
 N = 1,000,000 = 10^6
 => O(N^2) 불가능
