@@ -7,7 +7,6 @@ for test_case in range(1, T + 1):
     for idx, item in enumerate(bds):
         if idx < 2 or idx > n-3:
             continue
-        
         maxHeight = max(bds[idx-2], bds[idx-1], bds[idx+1], bds[idx+2])
         if maxHeight < bds[idx]:
             answer += bds[idx] - maxHeight
