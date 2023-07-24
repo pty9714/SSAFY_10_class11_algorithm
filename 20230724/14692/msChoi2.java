@@ -1,12 +1,11 @@
 import java.util.Scanner;
-import java.io.FileInputStream;
+// import java.io.FileInputStream;
 
 class Main
 {
     public static void main(String args[]) throws Exception
     {
-        System.setIn(new FileInputStream("C:\\SSAFY\\intellij\\algorithm\\src\\input.txt"));
-
+        // System.setIn(new FileInputStream("C:\\SSAFY\\intellij\\algorithm\\src\\input.txt"));
         Scanner sc = new Scanner(System.in);
         int T;
         T = sc.nextInt();
