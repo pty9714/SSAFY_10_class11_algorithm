@@ -50,3 +50,6 @@ def solution(maps):
         
     answer.sort()
     return answer
+
+---
+# 테스트 18 〉	통과 (20.08ms, 10.5MB)
