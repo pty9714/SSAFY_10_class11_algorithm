@@ -38,3 +38,6 @@ for test_case in range(1, T + 1):
                     heapq.heappush(q, [nxtRow, nxtCol, newDist])
 
     print("#" + str(test_case) + " " + str(answer))
+
+---
+# Python - 591ms
