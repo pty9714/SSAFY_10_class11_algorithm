@@ -22,3 +22,7 @@ for test_case in range(1, T + 1):
                 if dp[nx][ny] > tmp:
                     dp[nx][ny] = tmp
                     heappush(heapq, (tmp, nx, ny))
+# 메모리
+# 61,948 kb
+# 실행시간
+# 265 ms
