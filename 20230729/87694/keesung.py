@@ -3,44 +3,51 @@ from collections import deque
 def solution(rectangle, characterX, characterY, itemX, itemY):
     answer = 0
     
-    graph = [[0] * 52 for _ in range(52)]
-    visited = [[False] * 52 for _ in range(52)]
-    for x1, y1, x2, y2 in rectangle:
+    graph = [[0] * 102 for _ in range(102)]
+    visited = [[False] * 102 for _ in range(102)]
+    for (x1, y1, x2, y2) in rectangle:
+        x1, y1, x2, y2 = map(lambda x: x*2, [x1, y1, x2, y2])
         for x in range(x1, x2+1):
             for y in range(y1, y2+1):
-                graph[y][x] = 1
-                
-    # print(graph[4][1])
-    dx = [0, 1, 0, -1, 1, 1, -1, -1]
-    dy = [-1, 0, 1, 0, -1, 1, 1, -1]
-    for x1, y1, x2, y2 in rectangle:
-        for x in range(x1, x2+1):
-            for y in range(y1, y2+1):
-                for i in range(8):
-                    nx = x + dx[i]
-                    ny = y + dy[i]
-                    if graph[ny][nx] == 0:
-                        graph[y][x] = 2
-                        continue
+                graph[x][y] = 1
+    dx = [1, 1, -1, -1, 0, 0, 1, -1]
+    dy = [1, -1, 1, -1, 1, -1, 0, 0]
+    for i in range(102):
+        for j in range(102):
+            if graph[i][j] == 1:
+                for k in range(8):
+                    nx = i + dx[k]
+                    ny = j + dy[k]
+                    if graph[nx][ny] == 0:
+                        graph[i][j] = 2
+                        break
     
-    queue = deque()
-    queue.append((characterX, characterY, 0))
-    visited[y][x] = True
-    while queue:
-        x, y, num= queue.popleft()
-        print(x, y, num)
-        if x == itemX and y == itemY:
-            answer = num
+    for row in graph:
+        print(row)
+    q = deque()
+    q.append((characterX*2, characterY*2, 0))
+    visited[characterX*2][characterY*2] = True
+    while q:
+        x, y, cnt = q.popleft()
+        # print(x, y, cnt)
+        if x == itemX*2 and y == itemY*2:
+            answer = cnt // 2
             break
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-            if graph[ny][nx] == 2 and not visited[ny][nx]:
-                queue.append((nx, ny, num + 1))
-                visited[ny][nx] = True
-        
+        for k in range(4,8):
+            nx = x + dx[k]
+            ny = y + dy[k]
+            # if nx == 3 and ny == 8:
+                # print("=====")
+                # print(visited[ny][nx], graph[ny][nx])
+                # print("=====")
+            if visited[nx][ny] == False and graph[nx][ny] == 2:
+                q.append((nx, ny, cnt+1))
+                visited[nx][ny] = True
     
     return answer
     
 rectangle = [[1,1,7,4],[3,2,5,5],[4,3,6,9],[2,6,8,8]]
 print(solution(rectangle, 1, 3, 7, 8))
+
+# 최대 시간 13.97ms
+# 메모리 10.4MB
