@@ -28,6 +28,6 @@ replay_pid*
 *.iml
 /.metadata/
 untitled/
-*/out/
+out/
 *.project
 .vscode/
