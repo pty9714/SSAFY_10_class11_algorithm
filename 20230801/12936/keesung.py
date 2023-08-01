@@ -15,6 +15,6 @@ def solution(n, k):
     answer.append(numbers.pop())
     return answer
 
-n = 3
-k = 5
-print(solution(n, k))
+# n = 3
+# k = 5
+# print(solution(n, k))
