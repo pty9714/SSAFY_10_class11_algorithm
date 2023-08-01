@@ -9,7 +9,7 @@ public class Main {
 		int N = Integer.parseInt(br.readLine());
 		int K = Integer.parseInt(br.readLine());
 		int[] matrix = new int[N];
-		Integer[] diff = new Integer[N - 1];
+		int[] diff = new int[N - 1];
 		int ans = 0;
 		
 		String[] s = br.readLine().split(" ");
