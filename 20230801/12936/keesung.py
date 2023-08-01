@@ -18,3 +18,6 @@ def solution(n, k):
 # n = 3
 # k = 5
 # print(solution(n, k))
+
+# 시간
+# 0.02ms
