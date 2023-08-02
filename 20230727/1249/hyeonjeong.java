@@ -64,7 +64,7 @@ public class S1249 {
             
         }
 
-    } 
+    }  
 
     public static class Pos implements Comparable<Pos> {
         int x, y;
