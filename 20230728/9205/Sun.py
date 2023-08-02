@@ -8,7 +8,7 @@ def bfs():
         x, y = q.popleft()
         if abs(x - fest_x) + abs(y - fest_y) <= 1000:
             print("happy")
-            break
+            return
         for i in range(n):
             if not visited[i]:
                 new_x, new_y = cu[i]
@@ -16,6 +16,7 @@ def bfs():
                     q.append([new_x, new_y])
                     visited[i] = 1
     print("sad")
+    return
 
 for TC in range(1,tc+1):
     n = int(input())
