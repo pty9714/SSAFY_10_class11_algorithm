@@ -1,12 +1,12 @@
 n = int(input())
 k = int(input())
-sensor = list(map(int,input().split()))
-sensor.sort()
+s = list(map(int,input().split()))
+s.sort()
 
-array = []
+l = []
 for i in range(0,n-1):
-    array.append(sensor[i+1] - sensor[i])
+    l.append(s[i+1] - s[i])
 
-array.sort()
+l.sort()
 
-print(sum(array[:n-k]))
+print(sum(l[:n-k]))
