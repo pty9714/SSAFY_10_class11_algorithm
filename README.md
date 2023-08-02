@@ -13,7 +13,7 @@
  * [구현](#구현)
  * [완전탐색](#완전탐색)
  * [자료구조](#자료구조)
-
+ * [그리디](#그리디)
 ## 1. 파일명 규칙
 * 파일명 : 날짜(스터디 날짜)/문제/이름.java(py)
   * 20230717/어두운굴다리/keesung.java
@@ -33,3 +33,6 @@
 ### 완전탐색
 ---
 ### 자료구조
+---
+### 그리디
+* 백준 2212번 - [문제 링크](https://www.acmicpc.net/problem/2212) [풀이 링크](https://github.com/GNuSeekK/SSAFY_10_class11_algorithm/tree/main)
