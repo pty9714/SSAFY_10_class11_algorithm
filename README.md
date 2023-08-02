@@ -35,4 +35,4 @@
 ### 자료구조
 ---
 ### 그리디
-* 센서 (백준 2212번) - [문제 링크](https://www.acmicpc.net/problem/2212) / [풀이 링크](https://github.com/GNuSeekK/SSAFY_10_class11_algorithm/tree/main)
+* 센서 (백준 2212번) - [문제 링크](https://www.acmicpc.net/problem/2212) / [풀이 링크](https://github.com/GNuSeekK/SSAFY_10_class11_algorithm/tree/main/20230731)
