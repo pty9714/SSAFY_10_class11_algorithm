@@ -16,55 +16,58 @@ public class keesung {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         N = Integer.parseInt(br.readLine());
-        // queens = new int[N];
         result = 0;
-        List queens = new LinkedList<Integer>();
-        List notAbles = new LinkedList<Integer>();
+        int[] queens = new int[N];
+        int[] notAbles = new int[N*2];
         dfs(queens, notAbles, 0);
         System.out.println(result);
     }
 
-    static void dfs(List queens, List notAbles, int idx) {
+    static void dfs(int[] queens, int[] notAbles, int idx) {
         if (idx == N) {
-//            System.out.println(queens.toString());
-//            System.out.println(notAbles.toString());
             result += 1;
             return;
         }
-        ListIterator<Integer> iterator = notAbles.listIterator();
         Integer num;
-        for (int j = 0; j < queens.size(); j++) {
-            // 0번째가 마이너스 1번째가 플러스
-            num = iterator.next();
-            iterator.set(num - 1);
-            num = iterator.next();
-            iterator.set(num + 1);
+        for (int j = 0; j < idx; j++) {
+            notAbles[j*2] -= 1;
+            notAbles[j*2+1] += 1;
         }
-        for (int i = 0; i < N; i++){
-
-            if (queens.contains(i)) {
-                continue;
-            } else {
-
-                if (notAbles.contains(i) == false) {
-                    queens.add(i);
-                    notAbles.add(i);
-                    notAbles.add(i);
-                    dfs(queens, notAbles, idx + 1);
-                    queens.remove(queens.size()-1);
-                    notAbles.remove(notAbles.size()-1);
-                    notAbles.remove(notAbles.size()-1);
+        label: for (int i = 0; i < N; i++){
+            for (int j = 0; j < idx; j++) {
+                if (queens[j] == i) {
+                    continue label;
                 }
             }
+            boolean flag = false;
+            for (int j = 0; j < idx*2; j++) {
+                if (notAbles[j] == i) {
+                    flag = true;
+                    break;
+                }
+            }
+            if (flag == false) {
+                queens[idx] = i;
+                notAbles[idx*2] = i;
+                notAbles[idx*2+1] = i;
+                dfs(queens, notAbles, idx + 1);
+                queens[idx] = -1;
+                notAbles[idx*2] = -1;
+                notAbles[idx*2+1] = -1;
+            }
         }
-        iterator = notAbles.listIterator();
-        for (int j = 0; j < queens.size(); j++) {
+        for (int j = 0; j < idx; j++) {
             // 0번째가 마이너스 1번째가 플러스
-            num = iterator.next();
-            iterator.set(num + 1);
-            num = iterator.next();
-            iterator.set(num - 1);
+            notAbles[j*2] += 1;
+            notAbles[j*2+1] -= 1;
         }
 
     }
 }
+
+// 6572ms
+// 처음에는 LinkedList로 시도함 ( 계속 삽입 삭제가 일어났기 때문에, 삽입 삭제가 빠른 링크드리스트 선택, contains를 쓰기 위해 선택했지만 메모리 오버)
+// 메모리 오버 나는 이유는 계속 삽입 삭제를 반복하면서 새로운 객체를 만들었기 때문에, 사용하지 않는 메모리가 생긴것으로 예상
+// 배열을 int[]로 바꿔서 고정적인 메모리를 사용하도록 한 뒤 배열 접근 방식을 index로 하도록 설정
+// 퀸을 판단할 때 같은 열, 행에 있으면 안되기 때문에 배열을 하나 만들고, 각자의 값이 모두 다르도록 배열 구성
+// 해당 배열과 더불어 배열의 길이 *2를 하나더 만들어, 그 배열에는 대각선을 표시해서 -1 +1을 해주며 배열 길이가 하나 늘어날 때마다 퀸이 위치할 수 없는 곳을 체크하도록 함
