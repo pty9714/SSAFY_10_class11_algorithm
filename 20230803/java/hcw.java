@@ -6,16 +6,16 @@ import java.util.stream.Stream;
 public class Main {
 	static int result = 0;
 	
-	static boolean checkQueen(int[][]arr, int count, int i, int N) {
+	static boolean checkQueen(int[][]arr, int count, int i, int N) { //놔도 되는지 확인
 		int left = i-1;
 		int right = i+1;
 
 		for(int j = count-1; j >=0; j--) {
-			if(left >= 0 && arr[j][left] == 1) {
+			if(left >= 0 && arr[j][left] == 1) { //왼쪽위 올라가면서 놓여있는지 확인
 				return false;
 			}
 			left -= 1;
-			if(right < N && arr[j][right] == 1) {
+			if(right < N && arr[j][right] == 1) { //오른쪽 위 올라가면서 놓여있는지 확인
 				return false;
 			}
 			right +=1;
@@ -31,8 +31,8 @@ public class Main {
 			return;
 		}
 		for(int i =0 ; i< N; i++) {
-			if(arr[count][i] == 0 && visited[i] == 0) {
-				if(checkQueen(arr, count, i, N)) {
+			if(arr[count][i] == 0 && visited[i] == 0) { //0인지 확인하고 위로 놓여있는지 확인
+				if(checkQueen(arr, count, i, N)) { //대각선 좌우 확인
 					visited[i] = 1;
 					arr[count][i] = 1;
 					 
