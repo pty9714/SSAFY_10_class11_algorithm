@@ -5,11 +5,11 @@ class Solution {
     public List<String> solution(String[] orders, int[] course) {
         
         List<String> answer = new ArrayList<>();
+        courses = new HashMap<>();
         
-        // 후보 찾기
         for(int c : course) {
-            // 후보 찾기
-            courses = new HashMap<>();
+            // 개수별 후보 찾기
+            courses.clear();
             for(String order : orders) {
                 order = sortString(order);
                 getCandidate(0, 0, order, "", c);
@@ -24,7 +24,6 @@ class Solution {
                 max = courses.get(key);
                 answer.add(key);
             }
-            
         }
         
         // 오름차순 정렬
@@ -33,21 +32,21 @@ class Solution {
     }
     
     // course 개수별 조합
-    public static void getCandidate(int cnt, int start, String order, String result, int N) { 
-		if(cnt == N) {
+    public static void getCandidate(int cnt, int start, String order, String result, int N) {
+        if(cnt == N) {
             if(courses.containsKey(result)) {
                 courses.put(result, courses.get(result) + 1);
-            }    
+            }
             else {
                 courses.put(result, 1);
             }
-			return;
-		}
-		for(int i = start; i < order.length(); i++) {
+            return;
+        }
+        for(int i = start; i < order.length(); i++) {
             result = result.substring(0, cnt) + order.charAt(i);
-			getCandidate(cnt + 1, i + 1, order, result, N);
-		}
-	}
+            getCandidate(cnt + 1, i + 1, order, result, N);
+        }
+    }
     
     // 문자열 정렬
     public String sortString(String s){
