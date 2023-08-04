@@ -21,17 +21,15 @@ class Solution {
 				for (int j = 0; j < depth; j++) {
 					if (!orders[p].contains(Character.toString(sb.charAt(j)))) {
 						flag = false;
-                        break;
+                        			break;
 					}
 				}
 				if (flag) c++;
 			}
-
 			if (c >= 2 && max_arr[courseIndex] <= c) {
 				max_arr[courseIndex] = c;
 				map.put(sb.toString(), c);
 			}
-
 			return;
 		} else {
 			for (int i = index; i < arr.length; i++) {
@@ -52,7 +50,6 @@ class Solution {
 				hashset.add(orders[i].charAt(j));
 			}
 		}
-
 		Character[] arr = hashset.toArray(new Character[0]);
 
 		for (int i = 0; i < course.length; i++) {
