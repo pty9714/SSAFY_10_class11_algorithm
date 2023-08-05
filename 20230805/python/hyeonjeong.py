@@ -1,4 +1,4 @@
-n = int(input())
+n = int(input()) 
 # seats: 자리 배치
 seats = [[0 for j in range(n)] for i in range(n)]
 
