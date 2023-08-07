@@ -1,5 +1,3 @@
-// Outer class
-
 import java.io.*;
 import java.util.*;
 
@@ -36,16 +34,14 @@ public class Main {
 							}
 						}
 					}
-
+					
 					if (max < count) {// 주변에 좋아하는 사람 수가 높으면 교체
 						index_i = i;
 						index_j = j;
 						max = count;
-
+						blank_count_max = blank_count;
 					} else if (max == count) { // 주변에 좋아하는 사람수가 같다면
-//						System.out.println(blank_count + " " + blank_count_max);
 						if (blank_count_max < blank_count) { // 인접 빈칸이 많다면 교체
-
 							index_i = i;
 							index_j = j;
 							blank_count_max = blank_count;
@@ -61,6 +57,8 @@ public class Main {
 								}
 							}
 						}
+						
+						
 					}
 
 					count = 0;
@@ -134,3 +132,6 @@ public class Main {
 
 	}
 }
+
+
+// 20084KB	388ms
