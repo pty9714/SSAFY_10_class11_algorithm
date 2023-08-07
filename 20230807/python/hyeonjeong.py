@@ -31,3 +31,4 @@ def solution(n, m, x, y, r, c, k):
     return answer
     
     
+# 테스트 26 〉	통과 (9.05ms, 16.1MB)
