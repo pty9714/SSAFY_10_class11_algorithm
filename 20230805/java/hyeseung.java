@@ -22,13 +22,14 @@ public class B21608 {
 	    
 	    int ans = 0;
 	    seat = new int[N][N];
+	    
 	    int table[][] = new int[N * N + 1][4];
 	    
 	    for(int i = 0; i < N * N; i++) {
 	        st = new StringTokenizer(br.readLine());
 	        // 학생의 번호와 그 학생이 좋아하는 4명의 학생 번호 입력 받기
 	        int num = Integer.parseInt(st.nextToken());
-	        int max = 0, maxX = 0, maxY = 0;
+	        int maxNear = -1, maxBlank = -1, maxX = 0, maxY = 0;
 	        for(int j = 0; j < 4; j++) {
 	            table[num][j] = Integer.parseInt(st.nextToken());
 	        }
@@ -38,25 +39,18 @@ public class B21608 {
             		if(seat[x][y] == 0) {
             			// 1. 비어있는 칸 중 좋아하는 학생이 인접한 칸에 가장 많은 칸 자리 정하기
             			int near = near(x, y, table[num]);
-            			if(max < near) {
-            				maxX = x; maxY = y; max = near;
+            			if(maxNear < near) {
+            				maxX = x; maxY = y; maxNear = near; maxBlank = blank(maxX, maxY);
             			}
             			// 2. 1 만족하는 칸이 여러 개면 인접 칸 중에서 비어있는 칸이 가장 많은 칸을 정하거나,
             			// 3. 2 만족하는 칸도 여러 개면 행의 번호 -> 열 번호 작은 순으로 자리 정하기
-            			else if(max == near && near(maxX, maxY) < near(x, y)) {
-            				maxX = x; maxY = y;
+            			else if(maxNear == near && maxBlank < blank(x, y)) {
+            				maxX = x; maxY = y; maxBlank = blank(x, y);
             			}
             		}
             	}
             }
 	        seat[maxX][maxY] = num;
-	    }
-	    
-	    for(int[] i : seat) {
-	    	for(int j : i) {
-	    		System.out.print(j + " ");
-	    	}
-	    	System.out.println();
 	    }
 	    
 	    // 만족도 조사 
@@ -80,7 +74,7 @@ public class B21608 {
 			int tmpy = y + dy[i];
 			if(tmpx < 0 || tmpx >= N || tmpy < 0 || tmpy >= N) continue;
 			for(int k : kan) {
-				if(seat[tmpx][tmpy] == k) {
+				if(seat[tmpx][tmpy] > 0 && seat[tmpx][tmpy] == k) {
 					near++;
 					break;
 				}
@@ -90,7 +84,7 @@ public class B21608 {
 		return near;
 	}
 	// 인접 칸 중 비어있는 칸 세기
-	public static int near(int x, int y) {
+	public static int blank(int x, int y) {
 		int near = 0;
 		
 		for(int i = 0; i < 4; i++) {
@@ -103,3 +97,4 @@ public class B21608 {
 		return near;
 	}
 }
+// 140ms
