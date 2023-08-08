@@ -1,7 +1,6 @@
-// Outer class
-
 import java.io.*;
 import java.util.*;
+import java.util.stream.IntStream;
 
 public class Main {
 	static int[][] seat;
@@ -25,27 +24,28 @@ public class Main {
 					for (int p = 0; p < 4; p++) {
 						if (i + dx[p] >= 0 && i + dx[p] < N && j + dy[p] >= 0 && j + dy[p] < N) {
 
-							for (int temp = 0; temp < 4; temp++) {
-								if (arr[temp] == seat[i + dx[p]][j + dy[p]]) { // 근접위치에 좋아하는 사람 카운트
-									count++;
-									break;
-								}
-							}
 							if (seat[i + dx[p]][j + dy[p]] == 0) {// 근접위치 빈칸 카운트
 								blank_count++;
+							}else {
+								int temp = seat[i + dx[p]][j + dy[p]];
+								int arr_index = IntStream.range(0, arr.length)
+					                    .filter(in -> arr[in] == temp)
+					                    .findFirst()
+					                    .orElse(-1);
+								if(arr_index != -1) {
+									count++;
+								}
 							}
 						}
 					}
-
+					
 					if (max < count) {// 주변에 좋아하는 사람 수가 높으면 교체
 						index_i = i;
 						index_j = j;
 						max = count;
-
+						blank_count_max = blank_count;
 					} else if (max == count) { // 주변에 좋아하는 사람수가 같다면
-//						System.out.println(blank_count + " " + blank_count_max);
 						if (blank_count_max < blank_count) { // 인접 빈칸이 많다면 교체
-
 							index_i = i;
 							index_j = j;
 							blank_count_max = blank_count;
@@ -61,6 +61,8 @@ public class Main {
 								}
 							}
 						}
+						
+						
 					}
 
 					count = 0;
@@ -87,22 +89,25 @@ public class Main {
 		}
 
 		seat = new int[N][N];
-
+		int[] studentNumber = new int[N*N];
 		for (int i = 0; i < arr.length; i++) {
-			int studentNumber = arr[i][0];
-
-			checkPeople(Arrays.copyOfRange(arr[i], 1, 5), studentNumber);
+			studentNumber[i] = arr[i][0];
+			
+			checkPeople(Arrays.copyOfRange(arr[i], 1, 5), studentNumber[i]);
 		}
-
 		for (int i = 0; i < seat.length; i++) {
 			for (int j = 0; j < seat.length; j++) {
 				int count = 0;
-				for (int q = 0; q < Math.pow(N, 2); q++) {
-					if (arr[q][0] == seat[i][j]) {
+				int temp = seat[i][j];
+					int arr_index = IntStream.range(0, studentNumber.length)
+		                    .filter(in -> temp == studentNumber[in])
+		                    .findFirst()
+		                    .orElse(-1);
+
 						for (int p = 0; p < 4; p++) {// 사방탐색
 							if (i + dx[p] >= 0 && i + dx[p] < N & j + dy[p] >= 0 && j + dy[p] < N) { // 인덱스 조정
 								for (int k = 1; k <= 4; k++) {
-									if(arr[q][k] == seat[i+dx[p]][j+dy[p]]) {
+									if(arr[arr_index][k] == seat[i+dx[p]][j+dy[p]]) {
 										count++;
 										break;
 									}
@@ -110,12 +115,8 @@ public class Main {
 								}
 							}
 						}
-						break;
 
-					}
-					
-					
-				}
+				
 				if(count == 1) {
 					result += 1;
 				}else if(count == 2) {
@@ -134,3 +135,6 @@ public class Main {
 
 	}
 }
+
+
+	43956KB	508ms
