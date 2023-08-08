@@ -28,7 +28,7 @@ public class Main {
 		int right_block = blocks[blocks.length-1];
 		
 		for(int i =0 ; i< h - left_block; i++) {//왼쪽 블록 기준으로 빗물 제거
-			for(int j = 0; j< arr[0].length; j++) {
+			for(int j = 0; j< w; j++) {
 				if(arr[i][j] == 1) {
 					count--;
 				}else {
@@ -38,7 +38,7 @@ public class Main {
 		}
 		
 		for(int i =0 ; i < h-right_block; i++) { //오른쪽 블록 기준으로 빗물 제거
-			for(int j = arr[0].length-1 ; j >=0; j--) {
+			for(int j = w-1 ; j >=0; j--) {
 				if(arr[i][j] == 1) {
 					count--;
 				}else {
@@ -50,3 +50,6 @@ public class Main {
 		System.out.println(count);
 	}
 }
+
+
+//19076KB	248ms
