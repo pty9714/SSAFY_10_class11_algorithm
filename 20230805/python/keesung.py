@@ -11,9 +11,8 @@ dx = [0, 0, 1, -1]
 dy = [1, -1, 0, 0]
 graph = [[0] * (N+2) for _ in range(N+2)]
 for number in numbers:
-    max_val = 0
-    max_blank = 0
-    x, y = 0, 0
+    max_val = -1
+    max_blank = -1
     for i in range(1, N+1):
         for j in range(1, N+1):
             count = 0
@@ -28,6 +27,7 @@ for number in numbers:
                         count += 1
                 if count > max_val:
                     max_val = count
+                    max_blank = blank
                     x, y = i, j
                 elif count == max_val:
                     if blank > max_blank:
@@ -35,16 +35,20 @@ for number in numbers:
                         x, y = i, j
     graph[x][y] = number
 
+
 # print(graph)
 sumval = 0
 for i in range(1, N+1):
     for j in range(1, N+1):
         happy = 0
         for k in range(4):
+            # if graph[i][j] == 0:
+            #     continue
             if graph[i+dx[k]][j+dy[k]] in mapping[graph[i][j]]:
                 happy += 1
         if happy == 0:
-            sumval += 1
+            # sumval += 1
+            continue
         else:
             sumval += 10**(happy-1)
                 
