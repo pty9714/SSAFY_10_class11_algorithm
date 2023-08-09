@@ -23,34 +23,23 @@ public class B14719 {
 			rain[i] = Integer.parseInt(st.nextToken());
 		}
 		
-		int left = 0;
-		int right = 1;
-		while(right < W) {
-			int min = rain[left];
-			int index = left;
-			while(index <= right && rain[index] > rain[right]) {
-				index++; right++;
-				if(right >= W) break;
+		for (int i = 1; i < W - 1; i++) {
+			int left = 0;
+			int right = 0;
+			for (int j = 0; j < i; j++) {
+				left = Math.max(left, rain[j]);
 			}
-			min = Math.min(min, rain[right - 1]);
-			for(int i = left + 1; i < right - 1; i++) {
-				ans += min - rain[i];
+			for (int j = i + 1; j < W; j++) {
+				right = Math.max(right, rain[j]);
 			}
-			left = right++;
+			
+			if(left > rain[i] && right > rain[i])
+				ans += Math.min(left, right) - rain[i];
 		}
-//		while(right < W) {
-//			while(rain[left] > rain[right++]) {
-//				if(right >= W) break;
-//			}
-//			int min = Math.min(rain[left], rain[right - 1]);
-//			for(int i = left + 1; i < right - 1; i++) {
-//				ans += min - rain[i];
-//			}
-//			left = right++;
-//		}
 		
 		bw.write(ans + "");
 		bw.close();
 	}
 
 }
+// 96ms
