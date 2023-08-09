@@ -41,3 +41,6 @@ for i in range(n):
         if ans != 0:
             result += 10 ** (ans-1)
 print(result)
+
+---
+# 31256KB	304ms
