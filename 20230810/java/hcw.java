@@ -24,7 +24,6 @@ public class Solution {
 					}
 				}
 			}
-			
 			System.out.println("#" + test + " " + (int)min);
 		}
 	}
