@@ -29,6 +29,8 @@
 ### BFS
 ---
 ### 구현
+* 빗물 (백준 14719번) - [문제 링크](https://www.acmicpc.net/problem/14719) / [풀이 링크](https://github.com/GNuSeekK/SSAFY_10_class11_algorithm/tree/main/20230808)
+   * 다양한 풀이 방식 등장
 ---
 ### 완전탐색
 ---
