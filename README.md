@@ -38,3 +38,7 @@
 ---
 ### 그리디
 * 센서 (백준 2212번) - [문제 링크](https://www.acmicpc.net/problem/2212) / [풀이 링크](https://github.com/GNuSeekK/SSAFY_10_class11_algorithm/tree/main/20230731)
+---
+### 순열조합
+* 줄 서는 방법 (프로그래머스 12936) - [문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/12936) / [풀이 링크](https://github.com/GNuSeekK/SSAFY_10_class11_algorithm/tree/main/20230801)
+   * NextPermutation 사용
