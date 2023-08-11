@@ -6,11 +6,11 @@ class Solution
 {
 	public static void main(String args[]) throws Exception
 	{
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int tc = Integer.parseInt(br.readLine());
         StringTokenizer st;
 
-        for(int t=1; t<tc; t++) {
+        for(int t=1; t<=tc; t++) {
             st = new StringTokenizer(br.readLine(), " ");
             long n = Integer.parseInt(st.nextToken());
             long a = Integer.parseInt(st.nextToken());
@@ -18,7 +18,7 @@ class Solution
 
             long minValue = Integer.MAX_VALUE;
             for(int r=1; r<=Math.sqrt(n); r++) {
-                for(int c=r; c<=Math.sqrt(n); c++) {
+                for(int c=r; c<=n/r; c++) {
                     long value = a * Math.abs(r-c) + b * (n - r * c);
                     if (value < minValue) minValue = value;
                 }
@@ -28,3 +28,4 @@ class Solution
         }
 	}
 }
+// 22,124 kb 828 ms
