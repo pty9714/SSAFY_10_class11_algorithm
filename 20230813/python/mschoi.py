@@ -36,6 +36,6 @@ def kruskal():
 
 print(kruskal())
 
----
-131168 KB,	432 ms	PyPy3
-49356 KB, 4308 ms Python3
+
+# 131168 KB,	432 ms	PyPy3
+# 49356 KB, 4308 ms Python3
