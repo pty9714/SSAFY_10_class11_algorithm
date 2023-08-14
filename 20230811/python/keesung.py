@@ -13,3 +13,5 @@ if N > len(comb):
     print(-1)
 else:
     print(comb[N-1])
+    
+# 44ms
