@@ -1,20 +1,14 @@
-# n = int(input())
-# cnt = 11
-# INF = int(1e9)
-# if n<=11:
-#     print(n-1)
-# else:
-#     for i in range(11,INF):
-#         for k in range(len(str(i))-1):
-#             if str(i)[k] <= str(i)[k+1]:
-#                 break
-#         else:
-#             cnt +=1
-            
-#         if cnt == n:
-#             print(i)
-#             break
-# 당연히 시간초과
-
-
-n = int(input())
+tc = int(input())
+for TC in range(1,tc+1):
+    answer = -1
+    N,A,B = map(int,input().split())
+    for i in range(1,N):
+        j = 1
+        while i*j <= N:
+            result = A*abs(i-j) + B*(N-i*j)
+            if answer == -1:
+                answer = result
+            else:
+                answer = min(answer,result)
+            j+=1
+    print(f'#{TC} {answer}')
