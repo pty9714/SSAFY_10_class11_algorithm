@@ -1,47 +1,26 @@
 s = input()
 stack = []
-answer = 0
+dic = {")" : ["(", 2], "]" : ["[", 3]}
 for c in s:
     if c == "(" or c == "[":
         stack.append(c)
-    elif c == ")":
+    else:
         tmp = []
         while True:
-            if not stack:
+            if not stack or (type(stack[-1]) != int and stack[-1] != dic[c][0]):
                 print(0)
                 exit(0)
             now = stack.pop()                
-            if now == "(":
-                if not tmp:
-                    stack.append(2)
-                else:         
-                    stack.append(2 * sum(map(int, tmp)))
+            if now == dic[c][0]:
+                if not tmp: stack.append(dic[c][1])
+                else: stack.append(dic[c][1] * sum(tmp))
                 break
-            elif now == "[":
-                print(0)
-                exit(0)
             else:
                 tmp.append(now)
-    elif c == "]": 
-        tmp = []
-        while True:
-            if not stack:
-                print(0)
-                exit(0)
-            now = stack.pop()                
-            if now == "[":
-                if not tmp:
-                    stack.append(3)
-                else:         
-                    stack.append(3 * sum(map(int, tmp)))
-                break
-            elif now == "(":
-                print(0)
-                exit(0)
-            else:
-                tmp.append(now)
+    
 for c in stack:
     if type(c) != int:
         print(0)
         exit(0)
 print(sum(stack))
+# 메모리 >> 31256 KB, 시간 >> 44 ms
