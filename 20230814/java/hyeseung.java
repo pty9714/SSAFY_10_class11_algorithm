@@ -47,7 +47,7 @@ public class B2504 {
 	        		num += Integer.parseInt(stack.pop());
 	        		cnt++;
 	        	}
-	        	// 닫힌 괄호 나오면 () 값은 3
+	        	// 닫힌 괄호 나오면 [] 값은 3
 	            if(!stack.isEmpty() && stack.peek().equals("[")) {
 	                stack.pop();
 	                if(cnt == 0) num = 3; // 숫자 없을 경우
