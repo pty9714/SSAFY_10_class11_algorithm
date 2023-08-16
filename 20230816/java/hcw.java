@@ -6,8 +6,6 @@ class Main {
 
 	static int[] dx = { 1, 1, 1, 0, -1, -1, -1, 0 };
 	static int[] dy = { -1, 0, 1, 1, 1, 0, -1, -1 };
-
-	static int[][] arr;
 	static int n;
 	static int[][] visited;
 	static int result;
@@ -18,7 +16,6 @@ class Main {
 		visited[y][x] = 1;
 
 		while (!q.isEmpty()) {
-			int count = 0;
 			Point p = q.poll();
 			int cx = p.x;
 			int cy = p.y;
@@ -27,16 +24,16 @@ class Main {
 
 			for (int k = 0; k < 8; k++) {
 				if (cx + dx[k] >= 0 && cx + dx[k] < n && cy + dy[k] >= 0 && cy + dy[k] < n) {
-					if (arr[cy + dy[k]][cx + dx[k]] == 9) {
+					if (visited[cy + dy[k]][cx + dx[k]] == 2) {
 						flagIsZero = false;
-						count++;
+						break;
 					}
 				}
 			}
 			for (int k = 0; k < 8; k++) {
 				if (flagIsZero) {
 					if (cx + dx[k] >= 0 && cx + dx[k] < n && cy + dy[k] >= 0 && cy + dy[k] < n) {
-						if (arr[cy + dy[k]][cx + dx[k]] == 0 && visited[cy + dy[k]][cx + dx[k]] == 0) {
+						if (visited[cy + dy[k]][cx + dx[k]] == 0) {
 							visited[cy + dy[k]][cx + dx[k]] = 1;
 							q.add(new Point(cx + dx[k], cy + dy[k]));
 						}
@@ -44,11 +41,6 @@ class Main {
 
 				}
 			}
-
-			if (flagIsZero) {
-				arr[cy][cx] = 0;
-			} else
-				arr[cy][cx] = count;
 
 		}
 
@@ -62,15 +54,13 @@ class Main {
 		for (int test = 1; test <= testcase; test++) {
 			n = Integer.parseInt(br.readLine());
 			result = 0;
-			arr = new int[n][n];
 			visited = new int[n][n];
 			String temp = new String();
 			for (int i = 0; i < n; i++) {
 				temp = br.readLine();
 				for (int j = 0; j < n; j++) {
 					if (temp.charAt(j) == '*') {
-						arr[i][j] = 9;
-						visited[i][j] = 1;
+						visited[i][j] = 2;
 					}
 				}
 			}
@@ -80,7 +70,7 @@ class Main {
 				for (int j = 0; j < n; j++) {
 					for (int k = 0; k < 8; k++) {
 						if (j + dx[k] >= 0 && j + dx[k] < n && i + dy[k] >= 0 && i + dy[k] < n) {
-							if (arr[i + dy[k]][j + dx[k]] == 9) { // 주변에 벽이 있다면 일단 pass
+							if (visited[i + dy[k]][j + dx[k]] == 2) { // 주변에 벽이 있다면 일단 pass
 								flagIsZero = false;
 								break;
 							}
@@ -93,7 +83,6 @@ class Main {
 					flagIsZero = true;
 				}
 			}
-			
 			
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < n; j++) {
@@ -108,3 +97,6 @@ class Main {
 
 	}
 }
+
+43,492 kb
+207 ms
