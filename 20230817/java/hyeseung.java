@@ -69,3 +69,4 @@ public class B2636 {
 		return airCnt;
 	}
 }
+// 14332KB, 124ms
