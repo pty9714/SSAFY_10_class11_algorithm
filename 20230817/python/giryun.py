@@ -18,7 +18,7 @@ def bfs() -> int:
             if not B[nx][ny]:
                 q.append((nx, ny))
                 visited.add((nx, ny))
-            else:
+            else:  # 치즈 바깥이면 0으로 바꿔주고 값 세주기
                 B[nx][ny] = 0
                 visited.add((nx, ny))
                 cnt += 1
