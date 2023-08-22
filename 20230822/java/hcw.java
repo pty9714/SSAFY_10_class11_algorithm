@@ -1,123 +1,53 @@
-import java.util.*;
 import java.io.*;
-class Solution {
-    static LinkedList<Integer> li = new LinkedList<Integer>();
-    static LinkedList<Integer> fin = new LinkedList<Integer>();
-    static LinkedList<Integer> f = new LinkedList<Integer>();
-    public LinkedList<Integer> solution(int[][] edges, int[] target) {
-        Arrays.sort(edges, (el1, el2) -> {
-           if(el1[0] == el2[0]){
-               return el1[1] - el2[1];
-           }else{
-               return el1[0] - el2[0];
-           }
-        });
-        
-        int max_node = edges[edges.length-1][1];
-        int[] lines = new int[max_node+1];
-        
-        
-        ArrayList<Integer>[] list = new ArrayList[max_node+1];
-        for(int i =0; i< list.length; i++){
-            list[i] = new ArrayList<>();
-        }
-        
-        for(int i =0; i< edges.length; i++){
-            if(lines[edges[i][0]] == 0){
-                lines[edges[i][0]] = edges[i][1]; 
-            }else if(edges[i][1] < lines[edges[i][0]]){
-                lines[edges[i][0]] = edges[i][1]; 
-            }
-            list[edges[i][0]].add(edges[i][1]);
-        }
-        
-        
-        // for(int i =0;i < edges.length; i++){
-            // System.out.println(Arrays.toString(edges[i]));
-            // System.out.println("list" + list[i]);
-        // }
-        // System.out.println(Arrays.toString(lines));
-        
-        int[] lines_temp = Arrays.copyOf(lines, lines.length);
-        boolean flag = true;
-        while(flag){
-            down(1, lines, list);
-            for(int i =0;i < lines.length; i++){
-                if(lines_temp[i] != lines[i]){
-                    flag = true;
-                    break;
-                }else{
-                    flag = false;
-                }
-            }
-        }
+import java.util.*;
 
+public class Solution {
+	
+	
+	static int[] dx = {1, 0, 0, -1};
+	static int[] dy = {0, 1, -1, 0};
+	static int[][] arr;
+	private static void dfs(int count, int y, int x, HashSet<Integer> hm, int current) {
+		if(count == 7) {
+			hm.add(current);
+			return;
+		}else {
+			for(int k =0; k < 4; k++) {
+				if(x + dx[k] >= 0 && x + dx[k] < 4 && y+dy[k] >= 0 && y+dy[k] < 4) {
+					dfs(count+1, y+dy[k], x + dx[k], hm, current*10 + arr[y+dy[k]][x + dx[k]]);
+				}
+			}
+		}
+    }
+	public static void main(String[] args) throws IOException {
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		
+		
+		int T = Integer.parseInt(st.nextToken());
+		
+		for(int test = 1; test <= T; test++) {
+			arr = new int[4][4];
+			HashSet<Integer> hm = new HashSet<>();
+			
+			for(int i =0;i < 4; i++) {
+				st = new StringTokenizer(br.readLine());
+				for(int j =0; j < 4; j++) {
+					arr[i][j] = Integer.parseInt(st.nextToken());
+				}
+			}
+			
+			for(int i =0;i < 4; i++) {
+				for(int j =0; j < 4; j++) {
+					dfs(0, i, j, hm, 0);
+				}
+			}
+			System.out.println("#" + test + " " + hm.size());
+		}
+	}
 
-        int[] result = new int[target.length];
-        int[] count = new int[target.length];
-        for(int i =0; i< li.size(); i++){
-            count[li.get(i)-1] ++;
-        }
-        
-        
-        
-//         
-        dfs(0, target, result);
-//      
-        System.out.println(li);
-        System.out.println(Arrays.toString(target));
-        System.out.println(Arrays.toString(count));
-        
-        // return f;
-        return f.size() == 0? new LinkedList<>(Arrays.asList(-1)) : f;
-        
-    }
-    
-    public void down(int node, int[] lines, ArrayList<Integer>[] list){
-        if(lines[node] != 0){
-            down(lines[node], lines, list);
-            int index = list[node].indexOf(lines[node]);
-            if(index + 1 < list[node].size()){ //size안에 있다면
-                lines[node] = list[node].get(index+1);
-            }else{ //넘어간다면
-                lines[node] = list[node].get(0);
-            }
-        }else{
-            li.add(node);
-        }
-    }
-    
-    public void dfs(int count, int[] target, int[] result){
-        
-        boolean flag = false;
-        for(int i = 0;i < target.length; i++){
-            if(target[i] == result[i]) flag = true;
-            else if(target[i] < result[i]) return;
-            else{
-                flag = false;
-                break;
-            }
-        }
-        
-        if(flag){
-            if(f.isEmpty()) f = (LinkedList)fin.clone();
-            else if(f.size() > fin.size()){
-                  f = (LinkedList)fin.clone();
-            }
-            return;
-        }
-
-        if(count == li.size()) count = 0;
-        
-        for(int i = 1; i <= 3; i++){
-            result[li.get(count)-1] += i;
-            fin.add(i);
-            dfs(count+1, target, result);
-            result[li.get(count)-1] -= i;
-            fin.remove(fin.size()-1);
-        }
-        
-    }
-    
-    
 }
+
+43,304 kb
+202 ms
