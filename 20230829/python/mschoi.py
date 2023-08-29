@@ -8,25 +8,23 @@ while number <= N:
     number *= 2
 
 # 가장 적은 수로 N 만들기 시도
-answer = 0
-while True:
-    temp, count = N+answer, 0
-    if answer == temp:
-        numbers.append(temp)
-    for i in range(len(numbers)-1, -1, -1):
-        q = temp // numbers[i]
-        temp -= q*numbers[i]
-        if q > 0:
-            count += 1
-        if temp == 0:
-            break
-    if temp == 0: # N을 만들었다
-        if count <= K: # K개 이하로 만들었다
-            print(answer)
-            break
-    if (N+answer) % 2 == 0:
-        answer += 2
-    else:
-        answer += 1
+cnt = []
+for i in range(len(numbers)-1, -1, -1):
+    q = N // numbers[i]
+    N -= q*numbers[i]
+    if q > 0:
+        cnt.append(numbers[i])
+    if N == 0:
+        break
 
-# 114976KB  2076ms
+if len(cnt) > K:
+    count = len(cnt) - K
+    temp = 0
+    for j in range(count):
+        temp += cnt[len(cnt)-j-2] - cnt[len(cnt)-j-1]
+        cnt[len(cnt)-j-2] *= 2
+    print(temp)
+else:
+    print(0)
+
+# 31256KB  44ms
