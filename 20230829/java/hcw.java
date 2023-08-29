@@ -59,3 +59,5 @@ public class Main {
 	}
 	
 }
+
+11544kb	76ms
