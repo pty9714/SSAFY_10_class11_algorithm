@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 class Main {
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -24,36 +23,30 @@ class Main {
         }
 
         // 가장 적은 수로 N 만들기 시도
-        int answer = 0;
-        while (true) {
-            int temp = N + answer;
-            int count = 0;
-            if (answer == temp) {
-                numbers.add(temp);
+        ArrayList<Integer> cnt = new ArrayList<>();
+        for (int i = numbers.size() - 1; i >= 0; i--) {
+            int q = N / numbers.get(i);
+            N -= q * numbers.get(i);
+            if (q > 0) {
+                cnt.add(numbers.get(i));
             }
-            for (int i = numbers.size() - 1; i >= 0; i--) {
-                int q = temp / numbers.get(i);
-                temp -= q * numbers.get(i);
-                if (q > 0) {
-                    count += 1;
-                }
-                if (temp == 0) {
-                    break;
-                }
+            if (N == 0) {
+                break;
             }
-            if (temp == 0) { // N을 만들었다
-                if (count <= K) { // K개 이하로 만들었다
-                    System.out.println(answer);
-                    break;
-                }
+        }
+
+        if (cnt.size() > K) {
+            int count = cnt.size() - K;
+            int temp = 0;
+            for (int j = 0; j < count; j++) {
+                temp += cnt.get(cnt.size() - j - 2) - cnt.get(cnt.size() - j - 1);
+                cnt.set(cnt.size() - j - 2, cnt.get(cnt.size() - j - 2) * 2);
             }
-            if ((N + answer) % 2 == 0) {
-                answer += 2;
-            } else {
-                answer += 1;
-            }
+            System.out.println(temp);
+        } else {
+            System.out.println(0);
         }
     }
 }
 
-// 12332KB  884ms
+// 11528KB  80ms
