@@ -7,6 +7,8 @@ def solution(N, number):
     
     for i in range(1, 8):
         first_numbers = numbers[i]
+        if number in first_numbers:
+            return i
         for j in range(1, i+1):
             index = i + j
             if index > 8:
@@ -44,3 +46,13 @@ def solution(N, number):
 # 테스트 9 〉	통과 (3.70ms, 10.4MB)
 
 # 각 횟수 에서 가능한 모든 경우의 수 더해주기
+
+# 테스트 1 〉	통과 (6.23ms, 10.4MB)
+# 테스트 2 〉	통과 (0.02ms, 10.2MB)
+# 테스트 3 〉	통과 (0.03ms, 10.1MB)
+# 테스트 4 〉	통과 (12.67ms, 10.9MB)
+# 테스트 5 〉	통과 (5.78ms, 10.4MB)
+# 테스트 6 〉	통과 (2.71ms, 10.3MB)
+# 테스트 7 〉	통과 (1.73ms, 10.4MB)
+# 테스트 8 〉	통과 (7.55ms, 11MB)
+# 테스트 9 〉	통과 (0.01ms, 10.2MB)
