@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.StringTokenizer;
 
-public class Main {
+public class B5373 {
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -65,16 +65,16 @@ public class Main {
 		int upTemp[][] = new int[3][3];
 		if(c == '+') {
 			for (int i = 0; i < 3; i++) {
-				cube[2][0][i] = cube[5][2-i][0];
+				cube[2][0][i] = cube[5][0][i];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[5][i][0] = cube[3][0][i];
+				cube[5][0][i] = cube[3][0][i];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[3][0][i] = cube[4][2-i][2];
+				cube[3][0][i] = cube[4][0][i];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[4][i][2] = temp[i];
+				cube[4][0][i] = temp[i];
 			}
 			for (int i = 0; i < 3; i++) {
 				for (int j = 0; j < 3; j++) {
@@ -84,23 +84,23 @@ public class Main {
 		}
 		else {
 			for (int i = 0; i < 3; i++) {
-				cube[2][0][i] = cube[4][i][2];
+				cube[2][0][i] = cube[4][0][i];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[4][i][2] = cube[3][0][2-i];
+				cube[4][0][i] = cube[3][0][i];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[3][0][i] = cube[5][i][0];
+				cube[3][0][i] = cube[5][0][i];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[5][i][0] = temp[2-i];
+				cube[5][0][i] = temp[i];
 			}
 			for (int i = 0; i < 3; i++) {
 				for (int j = 0; j < 3; j++) {
 					upTemp[i][j] = cube[0][j][2-i];
 				}
 			}
-		}
+		}	
 		cube[0] = upTemp;
 	}
 
@@ -112,39 +112,39 @@ public class Main {
 		int downTemp[][] = new int[3][3];
 		if(c == '-') {
 			for (int i = 0; i < 3; i++) {				
-				cube[2][2][i] = cube[5][2-i][2];
+				cube[2][2][i] = cube[5][2][i];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[5][i][2] = cube[3][2][i];
+				cube[5][2][i] = cube[3][2][i];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[3][2][i] = cube[4][2-i][0];
+				cube[3][2][i] = cube[4][2][i];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[4][i][0] = temp[i];
+				cube[4][2][i] = temp[i];
 			}
 			for (int i = 0; i < 3; i++) {
 				for (int j = 0; j < 3; j++) {
-					downTemp[i][j] = cube[1][2-j][i];
+					downTemp[i][j] = cube[1][j][2-i];
 				}
 			}
 		}
 		else {
 			for (int i = 0; i < 3; i++) {
-				cube[2][2][i] = cube[4][i][0];
+				cube[2][2][i] = cube[4][2][i];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[4][i][0] = cube[3][2][2-i];
+				cube[4][2][i] = cube[3][2][i];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[3][2][i] = cube[5][i][2];
+				cube[3][2][i] = cube[5][2][i];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[5][i][2] = temp[2-i];
+				cube[5][2][i] = temp[i];
 			}
 			for (int i = 0; i < 3; i++) {
 				for (int j = 0; j < 3; j++) {
-					downTemp[i][j] = cube[1][j][2-i];
+					downTemp[i][j] = cube[1][2-j][i];
 				}
 			}
 		}
@@ -159,16 +159,16 @@ public class Main {
 		int frontTemp[][] = new int[3][3];
 		if(c == '+') {
 			for (int i = 0; i < 3; i++) {
-				cube[0][2][i] = cube[4][2][i];
+				cube[0][2][i] = cube[4][2-i][2];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[4][2][i] = cube[1][2][2-i];
+				cube[4][i][2] = cube[1][2][2-i];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[1][2][i] = cube[5][2][2-i];
+				cube[1][2][i] = cube[5][i][0];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[5][2][i] = temp[i];
+				cube[5][i][0] = temp[i];
 			}
 			for (int i = 0; i < 3; i++) {
 				for (int j = 0; j < 3; j++) {
@@ -178,16 +178,16 @@ public class Main {
 		}
 		else {
 			for (int i = 0; i < 3; i++) {
-				cube[0][2][i] = cube[5][2][i];
+				cube[0][2][i] = cube[5][i][0];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[5][2][i] = cube[1][2][2-i];
+				cube[5][i][0] = cube[1][2][i];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[1][2][i] = cube[4][2][2-i];
+				cube[1][2][i] = cube[4][2-i][2];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[4][2][i] = temp[i];
+				cube[4][i][2] = temp[2-i];
 			}
 			for (int i = 0; i < 3; i++) {
 				for (int j = 0; j < 3; j++) {
@@ -206,39 +206,39 @@ public class Main {
 		int backTemp[][] = new int[3][3];
 		if(c == '-') {
 			for (int i = 0; i < 3; i++) {
-				cube[0][0][i] = cube[4][0][i];
+				cube[0][0][i] = cube[4][2-i][0];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[4][0][i] = cube[1][0][2-i];
+				cube[4][i][0] = cube[1][0][2-i];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[1][0][i] = cube[5][0][2-i];
+				cube[1][0][i] = cube[5][i][2];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[5][0][i] = temp[i];
+				cube[5][i][2] = temp[i];
 			}
 			for (int i = 0; i < 3; i++) {
 				for (int j = 0; j < 3; j++) {
-					backTemp[i][j] = cube[3][2-j][i];
+					backTemp[i][j] = cube[3][j][2-i];
 				}
 			}
 		}
 		else {
 			for (int i = 0; i < 3; i++) {
-				cube[0][0][i] = cube[5][0][i];
+				cube[0][0][i] = cube[5][i][2];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[5][0][i] = cube[1][0][2-i];
+				cube[5][i][2] = cube[1][0][i];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[1][0][i] = cube[4][0][2-i];
+				cube[1][0][i] = cube[4][2-i][0];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[4][0][i] = temp[i];
+				cube[4][i][0] = temp[2-i];
 			}
 			for (int i = 0; i < 3; i++) {
 				for (int j = 0; j < 3; j++) {
-					backTemp[i][j] = cube[3][j][2-i];
+					backTemp[i][j] = cube[3][2-j][i];
 				}
 			}
 		}
@@ -253,13 +253,13 @@ public class Main {
 		int leftTemp[][] = new int[3][3];
 		if(c == '+') {
 			for (int i = 0; i < 3; i++) {
-				cube[0][i][0] = cube[3][2-i][0];
+				cube[0][i][0] = cube[3][2-i][2];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[3][i][0] = cube[1][i][0];
+				cube[3][i][2] = cube[1][i][2];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[1][i][0] = cube[2][2-i][0];
+				cube[1][i][2] = cube[2][2-i][0];
 			}
 			for (int i = 0; i < 3; i++) {
 				cube[2][i][0] = temp[i];
@@ -275,13 +275,13 @@ public class Main {
 				cube[0][i][0] = cube[2][i][0];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[2][i][0] = cube[1][2-i][0];
+				cube[2][i][0] = cube[1][2-i][2];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[1][i][0] = cube[3][i][0];
+				cube[1][i][2] = cube[3][i][2];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[3][i][0] = temp[2-i];
+				cube[3][i][2] = temp[2-i];
 			}
 			for (int i = 0; i < 3; i++) {
 				for (int j = 0; j < 3; j++) {
@@ -300,20 +300,20 @@ public class Main {
 		int rightTemp[][] = new int[3][3];
 		if(c == '-') {
 			for (int i = 0; i < 3; i++) {
-				cube[0][i][2] = cube[3][2-i][2];
+				cube[0][i][2] = cube[3][2-i][0];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[3][i][2] = cube[1][i][2];
+				cube[3][i][0] = cube[1][i][0];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[1][i][2] = cube[2][2-i][2];
+				cube[1][i][0] = cube[2][2-i][2];
 			}
 			for (int i = 0; i < 3; i++) {
 				cube[2][i][2] = temp[i];
 			}
 			for (int i = 0; i < 3; i++) {
 				for (int j = 0; j < 3; j++) {
-					rightTemp[i][j] = cube[5][2-j][i];
+					rightTemp[i][j] = cube[5][j][2-i];
 				}
 			}
 		}
@@ -322,17 +322,17 @@ public class Main {
 				cube[0][i][2] = cube[2][i][2];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[2][i][2] = cube[1][2-i][2];
+				cube[2][i][2] = cube[1][2-i][0];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[1][i][2] = cube[3][i][2];
+				cube[1][i][0] = cube[3][i][0];
 			}
 			for (int i = 0; i < 3; i++) {
-				cube[3][i][2] = temp[2-i];
+				cube[3][i][0] = temp[2-i];
 			}
 			for (int i = 0; i < 3; i++) {
 				for (int j = 0; j < 3; j++) {
-					rightTemp[i][j] = cube[5][j][2-i];
+					rightTemp[i][j] = cube[5][2-j][i];
 				}
 			}
 		}
@@ -340,3 +340,4 @@ public class Main {
 	}
 
 }
+// 29532KB,	228ms
