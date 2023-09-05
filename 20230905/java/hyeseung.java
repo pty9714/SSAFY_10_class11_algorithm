@@ -4,17 +4,18 @@ class Solution {
         int answer = -1;
         if(N == number) return 1; // N과 number가 같으면 1
         ArrayList<ArrayList<Integer>> digits = new ArrayList<ArrayList<Integer>>();
-        int digit = 0;
-        
-        // N으로만 이루어진 i 자리 숫자 만들어서 배열에 첫 원소로 넣기
         for(int i = 0; i <= 8; i++) {
             digits.add(new ArrayList<Integer>());
-            digits.get(i).add(digit);
-            digit = digit * 10 + N;
         }
         
-        // 사칙 연산 진행
+        int digit = N;
+        // 1자리 자릿수
+        digits.get(1).add(digit);
+        
+        // 사칙 연산 진행 (+ N으로만 이루어진 i 자리 숫자 넣기)
         for(int i = 2; i <= 8; i++) {
+            digit = digit * 10 + N;
+            digits.get(i).add(digit);
             for(int j = 1; j < i; j++) {
                 for(Integer a : digits.get(j)) {
                     for(Integer b : digits.get(i-j)) {
@@ -32,13 +33,13 @@ class Solution {
     }
 }
 /*
-테스트 1 〉	통과 (9.50ms, 75MB)
-테스트 2 〉	통과 (0.05ms, 72.7MB)
-테스트 3 〉	통과 (0.08ms, 75.1MB)
-테스트 4 〉	통과 (448.26ms, 306MB)
-테스트 5 〉	통과 (416.10ms, 312MB)
-테스트 6 〉	통과 (1.50ms, 76.5MB)
-테스트 7 〉	통과 (1.68ms, 80.8MB)
-테스트 8 〉	통과 (411.30ms, 314MB)
-테스트 9 〉	통과 (0.02ms, 71.8MB)
+테스트 1 〉	통과 (11.05ms, 78.4MB)
+테스트 2 〉	통과 (0.05ms, 75MB)
+테스트 3 〉	통과 (0.09ms, 73.8MB)
+테스트 4 〉	통과 (445.30ms, 319MB)
+테스트 5 〉	통과 (468.70ms, 313MB)
+테스트 6 〉	통과 (1.96ms, 73.7MB)
+테스트 7 〉	통과 (2.15ms, 75.6MB)
+테스트 8 〉	통과 (461.77ms, 311MB)
+테스트 9 〉	통과 (0.02ms, 75.7MB)
 */
