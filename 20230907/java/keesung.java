@@ -4,31 +4,29 @@ import java.util.*;
 class Solution {
 
     public static class Node {
-        int r;
-        int c;
-        String value;
+        String value = "";
 
         Node parent;
         ArrayList<Node> children = new ArrayList<>();
 
-        Node(int r, int c, String value) {
-            this.r = r;
-            this.c = c;
-            this.value = value;
+        Node() {
             this.parent = this;
         }
     }
 
-    public static ArrayList<ArrayList<Node>> map = new ArrayList<ArrayList<Node>>(51);
+    // public static ArrayList<ArrayList<Node>> map = new
+    // ArrayList<ArrayList<Node>>(51);
+    public static Node[][] map = new Node[51][51];
     public static ArrayList<String> result = new ArrayList<>();
 
     public String[] solution(String[] commands) {
 
         for (int i = 0; i <= 50; i++) {
-            map.add(new ArrayList<Node>(51));
-            ArrayList<Node> arr = map.get(i);
+            // map.add(new ArrayList<Node>(51));
+            // ArrayList<Node> arr = map.get(i);
+
             for (int j = 0; j <= 50; j++) {
-                arr.add(new Node(i, j, ""));
+                map[i][j] = new Node();
             }
         }
 
@@ -70,26 +68,35 @@ class Solution {
     }
 
     public static void update(int r, int c, String value) {
-        Node node = map.get(r).get(c).parent;
+        // Node node = map.get(r).get(c).parent;
+        Node node = map[r][c].parent;
         node.value = value;
     }
 
     public static void update(String value1, String value2) {
-        for (ArrayList<Node> arr : map) {
-            for (Node node : arr) {
+        for (int i = 1; i <= 50; i++) {
+            for (int j = 1; j <= 50; j++) {
+                Node node = map[i][j];
                 if (node.value.equals(value1)) {
                     node.value = value2;
                 }
             }
         }
+        // for (ArrayList<Node> arr : map) {
+        // for (Node node : arr) {
+        // if (node.value.equals(value1)) {
+        // node.value = value2;
+        // }
+        // }
+        // }
     }
 
     public static void merge(int r1, int c1, int r2, int c2) {
         if (r1 == r2 && c1 == c2) {
             return;
         }
-        Node node1 = map.get(r1).get(c1).parent;
-        Node node2 = map.get(r2).get(c2).parent;
+        Node node1 = map[r1][c1].parent;
+        Node node2 = map[r2][c2].parent;
         if (node1 == node2) {
             return;
         }
@@ -109,7 +116,7 @@ class Solution {
     }
 
     public static void unmerge(int r, int c) {
-        Node node = map.get(r).get(c);
+        Node node = map[r][c];
         Node parent = node.parent;
         if (node == parent) {
             for (Node child : node.children) {
@@ -130,7 +137,7 @@ class Solution {
     }
 
     public static void print(int r, int c) {
-        Node node = map.get(r).get(c);
+        Node node = map[r][c];
         if (node.parent.value.equals("")) {
             result.add("EMPTY");
         } else {
@@ -165,3 +172,27 @@ class Solution {
 // 테스트 20 〉 통과 (4.70ms, 78.2MB)
 // 테스트 21 〉 통과 (7.69ms, 78.4MB)
 // 테스트 22 〉 통과 (17.91ms, 91.5MB)
+
+// ArrayList<ArrayList<Node>> => Node[][] 리팩토링 후 결과
+// 테스트 1 〉 통과 (0.86ms, 72.5MB)
+// 테스트 2 〉 통과 (0.65ms, 73MB)
+// 테스트 3 〉 통과 (0.91ms, 76MB)
+// 테스트 4 〉 통과 (0.83ms, 76.1MB)
+// 테스트 5 〉 통과 (1.32ms, 67.7MB)
+// 테스트 6 〉 통과 (1.44ms, 75.5MB)
+// 테스트 7 〉 통과 (0.86ms, 73MB)
+// 테스트 8 〉 통과 (1.49ms, 78.4MB)
+// 테스트 9 〉 통과 (2.27ms, 77.7MB)
+// 테스트 10 〉 통과 (1.27ms, 75.4MB)
+// 테스트 11 〉 통과 (6.06ms, 78.9MB)
+// 테스트 12 〉 통과 (4.45ms, 67.9MB)
+// 테스트 13 〉 통과 (8.68ms, 82.6MB)
+// 테스트 14 〉 통과 (6.97ms, 77.2MB)
+// 테스트 15 〉 통과 (8.37ms, 84.8MB)
+// 테스트 16 〉 통과 (9.69ms, 76.5MB)
+// 테스트 17 〉 통과 (8.37ms, 76.1MB)
+// 테스트 18 〉 통과 (7.72ms, 83.3MB)
+// 테스트 19 〉 통과 (14.06ms, 78.4MB)
+// 테스트 20 〉 통과 (4.85ms, 76MB)
+// 테스트 21 〉 통과 (5.49ms, 69.1MB)
+// 테스트 22 〉 통과 (4.55ms, 78.9MB)
