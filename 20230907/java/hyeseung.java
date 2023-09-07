@@ -85,7 +85,6 @@ class Solution {
             parents[root2 / 50][root2 % 50] = root1;
         }
     }
-    
 }
 /*
 테스트 1 〉	통과 (1.17ms, 72.2MB)
