@@ -1,10 +1,10 @@
 T = int(input())
 for tc in range(1, T+1):
     N = int(input())
-    names = []
+    names = set()
     for i in range(N):
-        names.push(input())
-    names.sort(key=lambda x: (len(x), x))
-    print("#"+tc)
-    for name in set(names):
+        names.add(input())
+    names = sorted(names, key=lambda x: (len(x), x))
+    print("#"+str(tc))
+    for name in names:
         print(name)
