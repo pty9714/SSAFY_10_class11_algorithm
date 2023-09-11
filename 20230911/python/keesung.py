@@ -7,6 +7,7 @@ def solution(temperature, t1, t2, a, b, onboard):
     if t1 <= temperature <= t2:
         answer = 0
         return answer
+    # 현재 온도를 t2보다 높게 만들어서 무조건 에어컨처럼 작동하게 시킴
     elif temperature < t1:
         temperature = t2 + (t1 - temperature)
     # dp[분][온도]
@@ -14,14 +15,20 @@ def solution(temperature, t1, t2, a, b, onboard):
     dp[0][-1] = 0
     for i in range(1, len(onboard)):
         if onboard[i] == 1:
+            # 탑승 하고 있을때 가능한 상태는 t1~ t2 까지 밖에 없다
             Range = range(t2 + 1 - t1)
         else:
+            # 탑승 하지 않을 때는 처음 시작 온도까지 올라가도 문제 없다.
             Range = range(temperature + 1 - t1)
         for j in Range:
+            
             if j == temperature - t1:
+                # 처음 시작온도랑 같으면 안틀고 1분 지나면 되는데, 온도가 낮거나 같은 거에서만 온다
                 dp[i][j] = min(dp[i-1][j-1], dp[i-1][j])
             else:
+                # 처음 시작 온도랑 다르면 이전의 온도에서 내려온 경우, 이전에서 그대로 유지하는 경우
                 min_list = [dp[i-1][j+1] + a, dp[i-1][j] + b]
+                # 그리고 이전에 이미 낮아서 올라온 경우가 있는데, 범위를 초과할 수 있기 때문에 j > 0 경우로 해주었다
                 if j > 0:
                     min_list.append(dp[i-1][j-1])
                 
