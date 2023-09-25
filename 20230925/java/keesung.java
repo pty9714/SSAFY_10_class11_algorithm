@@ -99,4 +99,4 @@ public class MinimizeSalesDecline {
 
 }
 
-// 답지 확인 https://school.programmers.co.kr/learn/courses/30/lessons/72416
+// 답지 확인 https://loosie.tistory.com/188
