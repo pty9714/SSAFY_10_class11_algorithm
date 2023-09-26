@@ -1,98 +1,65 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.PriorityQueue;
 
-class Solution {
+public class keesung {
 
-    public static ArrayList<Node> nodes;
+    static int[][] costs;
+    static HashMap<Integer, HashMap<Integer, Integer>> hashMap = new HashMap<>();
 
     public int solution(int n, int s, int a, int b, int[][] fares) {
-        int answer = 0;
-        // boolean[] visitedA = new boolean[n+1];
-        // boolean[] visitedB = new boolean[n+1];
-        // boolean[] visitedC = new boolean[n+1]; // A와 B사이 거리, A 에서 시작
-        // visitedA[s] = true;
-        // visitedB[s] = true;
-        // visitedC[a] = true;
-        nodes = new ArrayList<>(n);
-        nodes.add(new Node(0));
+        int answer = 1000000000;
         for (int i = 1; i <= n; i++) {
-            nodes.add(new Node(i));
+            hashMap.put(i, new HashMap<>());
+        }
+        for (int[] fare : fares) {
+            int nodeA = fare[0];
+            int nodeB = fare[1];
+            int cost = fare[2];
+            hashMap.get(nodeA).put(nodeB, cost);
+            hashMap.get(nodeB).put(nodeA, cost);
+
         }
 
-        for (int[] arr : fares) {
-            Node nodeA = nodes.get(arr[0]);
-            Node nodeB = nodes.get(arr[1]);
-            int cost = arr[2];
-            nodeA.friends.add(nodeB);
-            nodeA.costs.add(cost);
-            nodeB.friends.add(nodeA);
-            nodeB.costs.add(cost);
+        // s, a, b에서 모든 지점에 갈 수 있는 비용 계산해서 담기
+
+        costs = new int[3][n + 1];
+        calcCost(0, s, n);
+        calcCost(1, a, n);
+        calcCost(2, b, n);
+
+        for (int i = 1; i <= n; i++) {
+            int tmp = costs[0][i] + costs[1][i] + costs[2][i];
+            if (tmp == 0) {
+                continue;
+            }
+            answer = Math.min(tmp, answer);
         }
-        int aCost = getMinLength(n, s, a);
-        int bCost = getMinLength(n, s, b);
-        int cCost = getMinLength(n, b, a);
-        System.out.println(aCost + " " + bCost + " " + cCost);
-        if (aCost < bCost) {
-            answer += aCost;
-        } else {
-            answer += bCost;
-        }
-        answer += cCost;
 
         return answer;
     }
 
-    public static class Node {
-        int index;
-        ArrayList<Node> friends = new ArrayList<>();
-        ArrayList<Integer> costs = new ArrayList<>();
-
-        public Node(int index) {
-            this.index = index;
-        }
-    }
-
-    public static class Case implements Comparable<Case> {
-        int index;
-        int cost;
-
-        Case(int index, int cost) {
-            this.index = index;
-            this.cost = cost;
-        }
-
-        public int compareTo(Case o1) {
-            return this.cost - o1.cost;
-        }
-    }
-
-    public static int getMinLength(int n, int start, int end) {
+    public void calcCost(int index, int start, int n) {
+        int[] costArr = costs[index];
         boolean[] visited = new boolean[n + 1];
-        PriorityQueue<Case> queue = new PriorityQueue<>();
-        queue.offer(new Case(start, 0));
+        PriorityQueue<int[]> queue = new PriorityQueue<>((o1, o2) -> o1[1] - o2[1]);
+        queue.offer(new int[] { start, 0 });
         while (!queue.isEmpty()) {
-            Case obj = queue.poll();
-            int index = obj.index;
-            visited[index] = true;
-            int cost = obj.cost;
-            System.out.println(index + " " + cost);
-            if (index == end) {
-                return cost;
+            int[] arr = queue.poll();
+            int node = arr[0];
+            if (visited[node]) {
+                continue;
             }
-            Node node = nodes.get(index);
-            for (int i = 0; i < node.friends.size(); i++) {
-                Node friend = node.friends.get(i);
-                if (visited[friend.index]) {
-                    continue;
-                }
-                int newCost = cost + node.costs.get(i);
-                queue.offer(new Case(friend.index, newCost));
+            int cost = arr[1];
+            costArr[node] = cost;
+            visited[node] = true;
+            for (int child : hashMap.get(node).keySet()) {
+                int newCost = hashMap.get(node).get(child) + cost;
+                queue.offer(new int[] { child, newCost });
             }
 
         }
-        return 100000000;
+
     }
 
 }
-
-// 실패코드 문제 잘못 읽음
