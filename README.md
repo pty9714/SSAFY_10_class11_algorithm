@@ -59,3 +59,4 @@
 ### 기타
    #### MST (크루스칼, 프림)
    * 섬 연결하기 (프로그래머스 42861) - [문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42861) / [풀이 링크](https://github.com/GNuSeekK/SSAFY_10_class11_algorithm/tree/main/20230815)
+   * 합승 택시 요금 (프로그래머스 72413) - [문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/72413) / [풀이 링크](https://github.com/GNuSeekK/SSAFY_10_class11_algorithm/tree/main/20230923)
