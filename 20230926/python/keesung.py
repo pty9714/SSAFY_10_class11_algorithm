@@ -24,3 +24,5 @@ else:
     numbers = [''.join(x) for x in numbers]
     numbers = [abs(N - int(x)) + len(x) for x in numbers]
     print(min(abs(N - 100), min(numbers)))
+    
+# 메모리 208544 시간 616
