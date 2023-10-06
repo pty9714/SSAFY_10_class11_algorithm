@@ -6,17 +6,27 @@ def solution(rows, columns, queries):
             temp.append((i-1)*columns + j)
         board.append(temp)
         
+    result = []
     for query in queries:
-        start_x, start_y, end_x, end_y = query
-        start = board[start_x][end_x]
-        for i in range(start_x+1, end_x+1):
-            board[i-1][start_y] = board[i][start_y]
-        for j in range(start_y+1, end_y+1):
-            board[end_x][j-1] = board[end_x][j]
-        for i in range(end_x, start_x):
-            board[i][end_y] = board[i+1][end_y]
-        for j in range(end_y-1, start_y):
-            board[start_x][j+1] = board[start_x][j]
-        board[start_x][start_y+1] = start
+        sr, sc, er, ec = query
+        nums = []
+        start = board[sr][sc]
+        nums.append(start)
+        for i in range(sr, er):
+            board[i][sc] = board[i+1][sc]
+            nums.append(board[i+1][sc])
+        for j in range(sc, ec):
+            board[er][j] = board[er][j+1]
+            nums.append(board[er][j+1])
+        for i in range(er, sr, -1):
+            board[i][ec] = board[i-1][ec]
+            nums.append(board[i-1][ec])
+        for j in range(ec, sc, -1):
+            board[sr][j] = board[sr][j-1]
+            nums.append(board[sr][j-1])
+        board[sr][sc+1] = start
+        result.append(min(nums))
         
-    return board
+    return result
+
+# 테스트 3 〉	통과 (188.32ms, 11.7MB)
