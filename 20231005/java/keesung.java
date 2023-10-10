@@ -1,159 +1,68 @@
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.io.*;
 
 class Solution {
-
-    public static int[] dx = { -1, 1, 0, 0 };
-    public static int[] dy = { 0, 0, -1, 1 };
-
-    public static void main(String args[]) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int R = Integer.parseInt(st.nextToken());
-        int C = Integer.parseInt(st.nextToken());
-        int T = Integer.parseInt(st.nextToken());
-        int[][] map = new int[R][C];
-        int[] airClean = new int[2];
-        for (int i = 0; i < R; i++) {
-            st = new StringTokenizer(br.readLine());
-            for (int j = 0; j < C; j++) {
-                map[i][j] = Integer.parseInt(st.nextToken());
-                if (map[i][j] == -1) {
-                    airClean[0] = i;
-                    airClean[1] = j;
-                }
+    public int[] solution(int rows, int columns, int[][] queries) {
+        int[][] map = new int[rows][columns];
+        int cnt = 0;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                cnt += 1;
+                map[i][j] = cnt;
             }
-
         }
-        for (int i = 0; i < T; i++) {
-            map = spread(map, R, C);
-            // System.out.println("spread");
-            // for (int j = 0; j < R; j++) {
-            // for (int k = 0; k < C; k++) {
-            // System.out.print(map[j][k] + " ");
-            // }
+        Queue<Integer> q = new LinkedList();
+        int[] answer = new int[queries.length];
+        for (int k = 0; k < queries.length; k++) {
+            int[] query = queries[k];
+            int x1 = query[0] - 1;
+            int y1 = query[1] - 1;
+            int x2 = query[2] - 1;
+            int y2 = query[3] - 1;
+            int result = Integer.MAX_VALUE;
+            for (int j = y1; j < y2; j++) {
+                q.add(map[x1][j]);
+                result = Math.min(result, map[x1][j]);
+                // System.out.print(map[x1][j] + " ");
+            }
+            for (int i = x1; i < x2; i++) {
+                q.add(map[i][y2]);
+                result = Math.min(result, map[i][y2]);
+                // System.out.print(map[i][y2] + " ");
+            }
+            for (int j = y2; j > y1; j--) {
+                q.add(map[x2][j]);
+                result = Math.min(result, map[x2][j]);
+                // System.out.print(map[x2][j] + " ");
+            }
+            for (int i = x2; i > x1; i--) {
+                q.add(map[i][y1]);
+                result = Math.min(result, map[i][y1]);
+                // System.out.print(map[i][y1] + " ");
+            }
             // System.out.println();
-            // }
-            // System.out.println("clean");
-            clean(map, airClean, R, C);
-            // for (int j = 0; j < R; j++) {
-            // for (int k = 0; k < C; k++) {
-            // System.out.print(map[j][k] + " ");
-            // }
+
+            // q.add(q.poll());
+            for (int j = y1 + 1; j <= y2; j++) {
+                map[x1][j] = q.poll();
+                // System.out.print(map[x1][j] + " ");
+            }
+            for (int i = x1 + 1; i <= x2; i++) {
+                map[i][y2] = q.poll();
+                // System.out.print(map[i][y2] + " ");
+            }
+            for (int j = y2 - 1; j >= y1; j--) {
+                map[x2][j] = q.poll();
+                // System.out.print(map[x2][j] + " ");
+            }
+            for (int i = x2 - 1; i >= x1; i--) {
+                map[i][y1] = q.poll();
+                // System.out.print(map[i][y1] + " ");
+            }
             // System.out.println();
-            // }
-            // System.out.println("==============");
+            answer[k] = result;
         }
-
-        int answer = 0;
-        for (int i = 0; i < R; i++) {
-            for (int j = 0; j < C; j++) {
-                if (map[i][j] == -1) {
-                    continue;
-                }
-                answer += map[i][j];
-            }
-        }
-        System.out.println(answer);
-
-    }
-
-    private static void clean(int[][] map, int[] airClean, int r, int c) {
-        // 위쪽
-        int x = airClean[0];
-        int y = airClean[1];
-        // 위로 이동
-        while (x > 1) {
-            x -= 1;
-            map[x][y] = map[x - 1][y];
-        }
-        // 오른쪽으로 이동
-        x = 0;
-        while (y < c - 1) {
-            y += 1;
-            map[x][y - 1] = map[x][y];
-        }
-        // 아래로 이동
-        y = c - 1;
-        x = 0;
-        while (x < airClean[0]) {
-            map[x][y] = map[x + 1][y];
-            x += 1;
-        }
-
-        // 왼쪽으로 이동
-        x = airClean[0] - 1;
-        while (y > 1) {
-            y -= 1;
-            map[x][y + 1] = map[x][y];
-        }
-        map[airClean[0] - 1][1] = 0;
-
-        // 아래 순환
-        x = airClean[0];
-        y = airClean[1];
-        // 아래로 이동
-        while (x < r - 2) {
-            x += 1;
-            map[x][y] = map[x + 1][y];
-        }
-        // 오른쪽으로 이동
-        x = r - 1;
-        y = 1;
-        while (y < c) {
-            map[x][y - 1] = map[x][y];
-            y += 1;
-        }
-
-        x = r - 2;
-        y = c - 1;
-        while (x >= airClean[0]) {
-            map[x + 1][y] = map[x][y];
-            x -= 1;
-        }
-
-        x = airClean[0];
-        y = c - 1;
-        while (y > 1) {
-            map[x][y] = map[x][y - 1];
-            y -= 1;
-        }
-        map[airClean[0]][1] = 0;
-
-        map[airClean[0] - 1][airClean[1]] = -1;
-        map[airClean[0]][airClean[1]] = -1;
-    }
-
-    private static int[][] spread(int[][] map, int r, int c) {
-        int[][] temp = new int[r][c];
-        for (int i = 0; i < r; i++) {
-            for (int j = 0; j < c; j++) {
-                int munge = map[i][j];
-                if (munge == -1) {
-                    continue;
-                }
-                int spread = munge / 5;
-                if (spread == 0) {
-                    temp[i][j] += munge;
-                    continue;
-                }
-                int cnt = 0;
-                for (int k = 0; k < 4; k++) {
-                    int nx = i + dx[k];
-                    int ny = j + dy[k];
-                    if (nx < 0 || nx >= r || ny < 0 || ny >= c || map[nx][ny] == -1) {
-                        continue;
-                    }
-                    temp[nx][ny] += spread;
-                    cnt += 1;
-                }
-                temp[i][j] += munge - (spread * cnt);
-            }
-        }
-
-        return temp;
+        return answer;
     }
 }
 
