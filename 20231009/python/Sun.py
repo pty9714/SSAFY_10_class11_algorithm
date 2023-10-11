@@ -1,14 +1,8 @@
 n,k = input().split()
 l = list(n)
-if len(l) != 1:
-    if '0' in set(l) and len(set(l)) == 2 and len(l) == 2:
-        print(-1)
-    else:
-        k = int(k)
-        cnt = 0
-        answer = ''
-        flag = True
-        def switch(lst):
+
+
+def switch(lst):
             global cnt
             m = max(lst)
             for i in range(len(lst)-1,-1,-1):
@@ -20,6 +14,15 @@ if len(l) != 1:
                 lst[i] = lst[0]
                 lst[0] = m
                 cnt +=1   
+
+if len(l) != 1:
+    if '0' in set(l) and len(set(l)) == 2 and len(l) == 2:
+        print(-1)
+    else:
+        k = int(k)
+        cnt = 0
+        answer = ''
+        flag = True
 
         while cnt != k:
             if len(l)==2:
@@ -36,6 +39,8 @@ if len(l) != 1:
         if l:
             for i in l:
                 answer = answer + i
+        # for i
+        
         print(answer)
 else:
     print(-1)
