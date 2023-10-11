@@ -1,31 +1,34 @@
 class Solution {
     int MOD = 20170805;
-    int[][] directions = {{0, 1}, {1, 0}};
-    int m, n, answer;
-    int[][] cityMap;
-    
     public int solution(int m, int n, int[][] cityMap) {
         
-        dfs(0, 0, 0);
-        dfs(0, 0, 1);
+        int[][] map = new int[m+1][n+1];
+        for (int i=1; i<=m; i++) {
+            for (int j=1; j<=n; j++) {
+                map[i][j] = cityMap[i-1][j-1];
+            }
+        }
         
-        return answer % MOD;
-        
-    }
-    public void dfs(int i, int j, int dir) {
-        if (i==m-1 && j==n-1) {
-            answer++;
-            return;
+        int[][] dp = new int[m+1][n+1];
+        dp[1][1] = 1;
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (map[i][j] == 1)
+                    continue;
+                
+                int up = i;
+                while (map[--up][j] == 2) {}
+                dp[i][j] += dp[up][j] % MOD;
+                
+                int left = j;
+                while (map[i][--left] == 2) {}
+                dp[i][j] += dp[i][left] % MOD;
+                
+            }
         }
 
-        int ni = i + directions[dir][0];
-        int nj = j + directions[dir][1];
-        if (ni < 0 || ni >= m || nj < 0 || nj >= n) return;
-        if (cityMap[ni][nj] != 2) dfs(ni, nj, dir);
-        else if (cityMap[ni][nj] == 0) {
-            dfs(ni, nj, 0);
-            dfs(ni, nj, 1);
-        }
-    
+        return dp[m][n] % MOD;
     }
 }
+
+// 통과 (289.31ms, 97.7MB)
