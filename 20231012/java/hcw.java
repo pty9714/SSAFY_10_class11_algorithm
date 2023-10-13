@@ -1,57 +1,48 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main{
-	static class Paper{
-		long r;
-		long c;
-		public Paper(long r, long c) {
-			this.r = r;
-			this.c = c;
-		}
-	}
+
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		
+
 		long n = Long.parseLong(st.nextToken());
-		long k = Long.parseLong(st.nextToken());
-
+		long k =  Long.parseLong(st.nextToken());
 		
-		Queue<Paper> q = new LinkedList<>();
-		q.add(new Paper(1, 1));
+		//a번의 가위질로 k개의 색종이 만들 수 있음?
 		
+		//가로 자르는 횟수
+		long start = 0;
 		
-		for(int i =0 ; i < n; i++) {
-			int size = q.size();
+		long end = n;
+		int flag = 0;
+		while(start <= end) { //start == end 일때도 해야되는게 mid 가 start(end) 값이어야하기 때문?4 5
+			long mid = (start + end) / 2; //mid 구함
 			
-			for(int j = 0; j < size; j++) {
-				Paper temp = q.poll();
-				q.add(new Paper(temp.r + 1, temp.c));
-				q.add(new Paper(temp.r, temp.c + 1));
+			if((mid+1) * (n-mid+1) < k) { //현재 색종이 수가 k보다 작다면
+				end = mid-1; //end를 낮춘다.
+			}else if((mid+1) * (n-mid+1) == k) {
+				flag = 1;
+				System.out.println("YES");
+				break;
+			}else {
+				start = mid+1;
 			}
+//			System.out.println(start + " " + mid + " " + end);
 		}
-		HashSet<Long> hs = new HashSet<>();
-		while(!q.isEmpty()) {
-			Paper temp = q.poll();
-			hs.add(temp.c * temp.r);
-		}
-
 		
-		if(hs.contains(k)) {
-			System.out.println("YES");
-		}else {
+		
+		if(flag == 0) {
 			System.out.println("NO");
 		}
+		
+		
+		
+
+
+		
 		
 	}
 
