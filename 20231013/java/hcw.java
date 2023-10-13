@@ -41,3 +41,5 @@ public class Main {
 		System.out.println(min +" " + cnt);
 	}
 }
+
+280ms
