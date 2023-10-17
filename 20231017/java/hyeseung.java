@@ -6,7 +6,7 @@ import java.io.OutputStreamWriter;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
-// 11756KB, 80ms
+// 11764KB, 80ms
 public class B16928 {
 	
 	static class Game implements Comparable<Game> {
@@ -64,13 +64,20 @@ public class B16928 {
 				continue;
 			}
 			for (int i = 6; i > 0; i--) {
-				if((cur.number + i) < 99 && board[cur.number + i] > 0 && !visited[board[cur.number + i]]) {
-					q.offer(new Game(board[cur.number + i], cur.cnt + 1));
-					visited[board[cur.number + i]] = true;
-				}
-				else if(cur.number + i >= 99 || (!visited[cur.number + i] && board[cur.number + i] <= 0)){
+				if(cur.number + i >= 99) {
 					q.offer(new Game(cur.number + i, cur.cnt + 1));
-					if(cur.number + i < 99) visited[cur.number + i] = true;
+				}
+				else if(board[cur.number + i] > 0) {
+					if(!visited[board[cur.number + i]]) {
+						q.offer(new Game(board[cur.number + i], cur.cnt + 1));
+						visited[board[cur.number + i]] = true;
+					}
+				}
+				else {
+					if(!visited[cur.number + i]) {
+						q.offer(new Game(cur.number + i, cur.cnt + 1));
+						visited[cur.number + i] = true;
+					}
 				}
 			}
 		}
