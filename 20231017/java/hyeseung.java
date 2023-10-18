@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
 
 // 11764KB, 80ms
 public class B16928 {
-	
+	// 바보	
 	static class Game implements Comparable<Game> {
 		int number;
 		int cnt;
