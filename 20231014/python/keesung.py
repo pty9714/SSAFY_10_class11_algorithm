@@ -27,7 +27,8 @@ def solution(info, query):
         poses[pos].add(i)
         levels[level].add(i)
         foods[food].add(i)
-        scores.append(score)
+        scores.append([score, i])
+    scores.sort()
     
     answer = []
     for text in query:
@@ -36,27 +37,27 @@ def solution(info, query):
         food, score = food.split()
         score = int(score)
         result = set()
-        signal = False
+        
+        start = 0
+        end = len(scores) - 1
+        while start < end:
+            mid = int((end + start) / 2)
+            print(start, end, mid, scores[mid][0], score)
+            if scores[mid][0] >= score:
+                end = mid
+            else:
+                start = mid + 1
+        for tmp in scores[start:]:
+            result.add(tmp[1])
+        
+        print(result)
+        
         for num, check in enumerate([lan, pos, level, food]):
             if check == '-':
                 continue
-            if signal:
-                check_set = indexes[num][check]
-                result = result.intersection(check_set)
-            else:
-                signal = True
-                result = indexes[num][check]
-        if signal:
-            for num in result:
-                if scores[num] >= score:
-                    tmp_answer += 1
-        else:
-            count = [x for x in scores if x >= score]
-            tmp_answer = len(count)
-        answer.append(tmp_answer)
-            
-            
-        
+            check_set = indexes[num][check]
+            result = result.intersection(check_set)
+        answer.append(len(result))
     
     return answer
 
