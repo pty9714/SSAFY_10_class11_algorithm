@@ -1,30 +1,34 @@
-# 실패
-T= int(input())
+import sys
+
+sys.setrecursionlimit(10 ** 6)
+
+
+def dfs(idx):
+    global cnt
+    checked[idx] = True
+    tmp.append(idx)
+
+    if checked[nums[idx]]:
+        if nums[idx] in tmp:
+            cnt -= len(tmp[tmp.index(nums[idx]):])
+        return
+
+    dfs(nums[idx])
+
+
+T = int(input())
 for _ in range(T):
     n = int(input())
+    cnt = n
     nums = [0] + list(map(int, input().split()))
-    checked = [False for _ in range(n+1)]
-    groups = []
+    checked = [False for _ in range(n + 1)]
 
-    for i in range(1, n+1):
+    for i in range(1, n + 1):
         if checked[i]:
             continue
-        tmp = [i]
-        while True:
-            nxt = nums[tmp[-1]]
-            if nxt == i:
-                groups.extend(tmp)
-                for t in tmp:
-                    checked[t] = True
-                break
-            if nxt == tmp[-1]:
-                checked[i] = True
-                checked[nxt] = True
-                groups.append(nxt)
-                break
-            if checked[nxt]:
-                checked[i] = True
-                break
-            tmp.append(nxt)
+        tmp = []
+        dfs(i)
 
-    print(n-len(groups))
+    print(cnt)
+
+# 61892	kb 2524 ms
