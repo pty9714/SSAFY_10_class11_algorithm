@@ -31,3 +31,5 @@ def go(a, cnt):
 
 go(1, 0)
 print(min(answer))
+
+# 31252kb 52ms
