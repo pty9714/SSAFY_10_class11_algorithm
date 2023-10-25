@@ -1,73 +1,48 @@
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class Main {
 
-	public static void main(String[] args) throws IOException {
-		// TODO Auto-generated method stub
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    public static void main(String[] args) throws IOException {
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-		int n = Integer.parseInt(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
+        int[] arr = new int[n];
 
-		int[] arr = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-		int answer = 0;
-		int answerCount = 0;
+        st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < n; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
+        }
 
-		if (n == 1) {
-			System.out.println("A");
-		}else {
-			label: for (int a = 0; a <= 100; a++) {
-				int b = arr[1] - arr[0] * a;
-				boolean flag = true;
-				for (int r = 1; r < n - 1; r++) {
-					if (arr[r] * a + b != arr[r + 1]) {
-						flag = false;
-						break;
-					}
-				}
-				if (flag) {
-					if(answer != arr[n - 1] * a + b) {
-						answerCount++;
-						answer = arr[n - 1] * a + b;
-					}
-					if (answerCount == 2) {
-						System.out.println("A");
-						break label;
-					}
-					
+        if (n == 1 || (n == 2 && arr[0] != arr[1])) {
+            bw.write("A");
+        } else if (n == 2) {
+            bw.write(arr[0] + "");
+        } else {
+            int a, b;
+            if (arr[1] == arr[0]) {
+                a = 1;
+                b = 0;
+            } else {
+                a = (arr[2] - arr[1]) / (arr[1] - arr[0]); //??
+                b = arr[1] - (arr[0] * a);
+            }
 
-				}
-			}
+            // validate
+            int i = 1;
+            for (; i < n; i++) {
+                if (arr[i] != (arr[i - 1] * a + b))
+                    break;
+            }
+            if (i != n) {
+                bw.write("B");
+            } else {
+                bw.write((arr[n - 1] * a + b) + "");
+            }
+        }
 
-			label:for(int a = -1; a >= -100; a--) {
-				int b = arr[1] - arr[0] * a;
-				boolean flag = true;
-				for (int r = 1; r < n - 1; r++) {
-					if (arr[r] * a + b != arr[r + 1]) {
-						flag = false;
-						break;
-					}
-				}
-				if (flag) {
-					if(answer != arr[n - 1] * a + b) {
-						answerCount++;
-						answer = arr[n - 1] * a + b;
-					}
-					if (answerCount == 2) {
-						System.out.println("A");
-						break label;
-					}
-				}
-			}
-
-			if (answerCount == 0) {
-				System.out.println("B");
-			} else if (answerCount == 1) {
-				System.out.println(answer);
-			}
-		}
-
-	}
-
+        bw.flush();
+    }
 }
