@@ -15,6 +15,7 @@ heapq.heappush(answer, (0, a, k))  # 시간,출발지,뗏목길이
 while answer:
     # print(answer)
     v, w, x = heapq.heappop(answer)
+    visited[w] = 1
     # print(v, w, x)
     if w == b and x > 0:
         print(v)
