@@ -13,6 +13,7 @@ public class B1753 {
 
 	public static ArrayList<ArrayList<Node>> graph = new ArrayList<ArrayList<Node>>();
 	public static int weight[];
+	
 	static class Node implements Comparable<Node> {
 		int index;
 		int weight;
@@ -29,7 +30,7 @@ public class B1753 {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		
-		// �Է� �ޱ�
+		// 입력 받기
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		int V = Integer.parseInt(st.nextToken());
 		int E = Integer.parseInt(st.nextToken());
@@ -49,9 +50,9 @@ public class B1753 {
 			graph.get(u).add(new Node(v, w));
 		}
 		
-		dijkstra(K); // ���ͽ�Ʈ�� ����
+		dijkstra(K); // 다익스트라 수행
 		
-		// ���������� �ٸ� ��� ���������� �ִ� ��� ���
+		// 시작점에서 다른 모든 정점으로의 최단 경로 출력
 		for (int i = 1; i <= V; i++) {
 			if(weight[i] == Integer.MAX_VALUE) bw.write("INF\n");
 			else bw.write(weight[i] + "\n");
@@ -68,7 +69,7 @@ public class B1753 {
 		weight[start] = 0;
 		while(!pq.isEmpty()) {
 			Node cur = pq.poll();
-			if(weight[cur.index] < cur.weight) continue; // �湮 üũ
+			if(weight[cur.index] < cur.weight) continue; // 방문 체크
 			for (Node next : graph.get(cur.index)) {
 				int nextWeight = weight[cur.index] + next.weight;
 				if(nextWeight < weight[next.index]) {
