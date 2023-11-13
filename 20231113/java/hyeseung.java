@@ -9,7 +9,7 @@ import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 // 117988KB, 716ms
-public class B1806 {
+public class B1753 {
 
 	public static ArrayList<ArrayList<Node>> graph = new ArrayList<ArrayList<Node>>();
 	public static int weight[];
