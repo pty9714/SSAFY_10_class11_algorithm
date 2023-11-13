@@ -13,7 +13,6 @@ public class B1753 {
 
 	public static ArrayList<ArrayList<Node>> graph = new ArrayList<ArrayList<Node>>();
 	public static int weight[];
-	
 	static class Node implements Comparable<Node> {
 		int index;
 		int weight;
@@ -30,7 +29,7 @@ public class B1753 {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		
-		// ÀÔ·Â ¹Þ±â
+		// ï¿½Ô·ï¿½ ï¿½Þ±ï¿½
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		int V = Integer.parseInt(st.nextToken());
 		int E = Integer.parseInt(st.nextToken());
@@ -50,9 +49,9 @@ public class B1753 {
 			graph.get(u).add(new Node(v, w));
 		}
 		
-		dijkstra(K); // ´ÙÀÍ½ºÆ®¶ó ¼öÇà
+		dijkstra(K); // ï¿½ï¿½ï¿½Í½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		
-		// ½ÃÀÛÁ¡¿¡¼­ ´Ù¸¥ ¸ðµç Á¤Á¡À¸·ÎÀÇ ÃÖ´Ü °æ·Î Ãâ·Â
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		for (int i = 1; i <= V; i++) {
 			if(weight[i] == Integer.MAX_VALUE) bw.write("INF\n");
 			else bw.write(weight[i] + "\n");
@@ -69,7 +68,7 @@ public class B1753 {
 		weight[start] = 0;
 		while(!pq.isEmpty()) {
 			Node cur = pq.poll();
-			if(weight[cur.index] < cur.weight) continue; // ¹æ¹® Ã¼Å©
+			if(weight[cur.index] < cur.weight) continue; // ï¿½æ¹® Ã¼Å©
 			for (Node next : graph.get(cur.index)) {
 				int nextWeight = weight[cur.index] + next.weight;
 				if(nextWeight < weight[next.index]) {
