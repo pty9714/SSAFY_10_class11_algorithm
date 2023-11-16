@@ -12,8 +12,8 @@ for _ in range(E):
     graph[u].append((v, w))
 
 queue = []
-heapq.heappush(queue, (0, K))
 answer[K] = 0
+heapq.heappush(queue, (0, K))
 
 while queue:
     acc_dist, start = heapq.heappop(queue)
