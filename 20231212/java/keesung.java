@@ -1,7 +1,7 @@
-package stock.chart;
-
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.PriorityQueue;
 
 public class Backjoon {
@@ -28,42 +28,82 @@ public class Backjoon {
                     }
                 }
             }
-            if (myPriorityQueue.getSize() == 0) {
-                System.out.println("EMPTY");
-            } else {
-                System.out.println(myPriorityQueue.pollMax() + " " + myPriorityQueue.pollMin());
-            }
+            System.out.println(myPriorityQueue.getResult());
         }
     }
 
     public static class MyPriorityQueue {
 
-        private PriorityQueue<Integer> maxQueue = new PriorityQueue<>();
-        private PriorityQueue<Integer> minQueue = new PriorityQueue<>();
+        private PriorityQueue<Node> maxQueue = new PriorityQueue<>();
+        private PriorityQueue<Node> minQueue = new PriorityQueue<>();
+        private Map<Integer, Integer> visited = new HashMap<>();
         private int size = 0;
 
         public void add(int num) {
-            maxQueue.add(-num);
-            minQueue.add(num);
+            maxQueue.add(new Node(-num));
+            minQueue.add(new Node(num));
+            visited.put(num, visited.getOrDefault(num, 0) + 1);
             size++;
         }
 
         public int pollMax() {
-            size--;
-            // minQueue.remove(maxQueue.peek() * -1);
-            return maxQueue.poll() * -1;
+            while (true) {
+                int num = maxQueue.poll().getNum() * -1;
+                if (visited.get(num) > 0) {
+                    visited.put(num, visited.get(num) - 1);
+                    size--;
+                    return num;
+                }
+            }
         }
 
         public int pollMin() {
-            size--;
-            // maxQueue.remove(minQueue.peek() * -1);
-            return minQueue.poll();
+            while (true) {
+                int num = minQueue.poll().getNum();
+                if (visited.get(num) > 0) {
+                    visited.put(num, visited.get(num) - 1);
+                    size--;
+                    return num;
+                }
+            }
         }
 
-        public int getSize() {
+        public Integer getSize() {
             return size;
+        }
+
+        public String getResult() {
+            if (size == 0) {
+                return "EMPTY";
+            }
+            int maxValue = pollMax();
+            if (size == 0) {
+                return maxValue + " " + maxValue;
+            }
+            int minValue = pollMin();
+            return maxValue + " " + minValue;
         }
 
     }
 
+    public static class Node implements Comparable<Node> {
+
+        private int num;
+
+        public Node(int num) {
+            this.num = num;
+        }
+
+        public int getNum() {
+            return num;
+        }
+
+        @Override
+        public int compareTo(Node o) {
+            return this.num > o.num ? 1 : -1;
+        }
+    }
+
 }
+
+// 93%에서 계속 에러남, 찾아보니 오버플로우라 해서 수정했는데도 계속 에러남
