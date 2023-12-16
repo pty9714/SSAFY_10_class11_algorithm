@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
-// 25488KB, 240ms
+// 25528KB, 208ms
 public class B1644 {
 
 	public static void main(String[] args) throws IOException {
@@ -22,7 +22,8 @@ public class B1644 {
         primeCheck[0] = primeCheck[1] = true;
 
         for (int i = 2; i <= Math.sqrt(N); i++) {
-            for (int j = i + i; j <= N; j += i){
+        	if(primeCheck[i]) continue; // 이미 체크 됐으면 pass
+            for (int j = i + i; j <= N; j += i){ // i를 제외한 i의 배수들은 소수가 아님
                 primeCheck[j] = true;
             }
         }
@@ -35,7 +36,7 @@ public class B1644 {
         for (int right = 0; right < prime.size(); right++) {
 			sum += prime.get(right);
 			if(sum == N) ans++;
-			while(sum >= N) {
+			while(sum >= N) { // sum이 커지거나 같은 경우 left 인덱스 늘려 차감
 				sum -= prime.get(left++);
 				if(sum == N) ans++;
 			}
