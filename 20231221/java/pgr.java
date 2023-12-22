@@ -1,149 +1,106 @@
 import java.io.*;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 public class Main {
+    static int A, B;
+    static int[] dx = {0, 1, 0, -1};
+    static int[] dy = {1, 0, -1, 0};
     static int[][] board;
-    static int[] dx = {-1, 0, 1, 0};
-    static int[] dy = {0, 1, 0, -1};
+    static Map<Integer, Robot> robots = new HashMap<>();
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int A = Integer.parseInt(st.nextToken());
-        int B = Integer.parseInt(st.nextToken());
+        A = Integer.parseInt(st.nextToken());
+        B = Integer.parseInt(st.nextToken());
+        board = new int[A][B];
 
         st = new StringTokenizer(br.readLine());
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
 
-        Node[] arr = new Node[N+1];
-        board = new int[B][A];
         for (int i = 1; i <= N; i++) {
             st = new StringTokenizer(br.readLine());
-            int x = Integer.parseInt(st.nextToken());
-            int y = Integer.parseInt(st.nextToken());
-            String tmp = st.nextToken();
-            int d;
-            if (tmp.equals("N")) d = 0;
-            else if (tmp.equals("E")) d = 1;
-            else if (tmp.equals("S")) d = 2;
-            else d = 3;
-            int r = B - y;
-            int c = x - 1;
-            arr[i] = new Node(r, c, d);
-            board[r][c] = i;
+            int x = Integer.parseInt(st.nextToken()) - 1;
+            int y = Integer.parseInt(st.nextToken()) - 1;
+            int d = -1;
+            switch (st.nextToken()) {
+                case "N" : d = 0; break;
+                case "E" : d = 1; break;
+                case "S" : d = 2; break;
+                case "W" : d = 3; break;
+            }
+            board[x][y] = i;
+            robots.put(i, new Robot(x, y, d));
         }
 
-        boolean flag = true;
+        String ans = "OK";
         for (int i = 0; i < M; i++) {
             st = new StringTokenizer(br.readLine());
-            int a = Integer.parseInt(st.nextToken());
-            String b = st.nextToken();
-            int c = Integer.parseInt(st.nextToken());
-            if (b.equals("L") || b.equals("R")) {
-                int newD = (arr[a].d + c) % 4;
-                if (c % 2 == 1) {
-                    if (b.equals("L")) {
-                        newD = (newD + 2) % 4;
-                    }
-                }
-                arr[a].d = newD;
-            } else {
-                int x = arr[a].x;
-                int y = arr[a].y;
-                int d = arr[a].d;
-                for (int j = 0; j < c; j++) {
-                    if (x + dx[d] >= 0 && x + dx[d] < B && y + dy[d] >= 0 && y + dy[d] < A) {
-                        if (board[x+dx[d]][y+dy[d]] > 0) {
-                            flag = false;
-                            bw.write("Robot" + a + " crashes into robot " + board[x+dx[d]][y+dy[d]]);
-                            break;
-                        }
-                        else {
-                            board[x][y] = 0;
-                            x = x + dx[d];
-                            y = y + dy[d];
-                            board[x][y] = a;
-                        }
-                    }
-                    else {
-                        flag = false;
-                        bw.write("Robot " + a + " crashes into the wall");
-                        break;
-                    }
-                }
-                if (!flag) break;
+            int idx = Integer.parseInt(st.nextToken());
+            String order = st.nextToken();
+            int repeat = Integer.parseInt(st.nextToken());
+            String res = Order(idx, order, repeat);
+            if (!res.equals("pass")) {
+                ans = res;
+                break;
             }
         }
-        if (flag) bw.write("OK");
+        bw.write(ans + "");
         bw.flush();
         bw.close();
         br.close();
     }
+    public static String Order(int idx, String order, int repeat ) {
+        String res = "pass";
+        Robot robot = robots.get(idx);
+        switch (order) {
+            case "L":
+                for (int i = 0; i < repeat; i++) {
+                    robot.d = robot.d == 0 ? 3 : robot.d - 1;
+                }
+                break;
+            case "R":
+                for (int i = 0; i < repeat; i++) {
+                    robot.d = (robot.d + 1) % 4;
+                }
+                break;
+            case "F":
+                for (int i = 0; i < repeat; i++) {
+                    int nx = robot.x + dx[robot.d];
+                    int ny = robot.y + dy[robot.d];
+                    if (nx < 0 || nx >= A || ny < 0 || ny >= B) {
+                        res = "Robot " + idx + " crashes into the wall";
+                        break;
+                    }
+                    else if (board[nx][ny] > 0) {
+                        res = "Robot " + idx + " crashes into robot " + board[nx][ny];
+                        break;
+                    }
+                    else {
+                        board[robot.x][robot.y] = 0;
+                        board[nx][ny] = idx;
+                        robot.x = nx;
+                        robot.y = ny;
+                    }
+                }
+                break;
+        }
+        return res;
+    }
 
-    public static class Node {
+    static class Robot {
         int x;
         int y;
         int d;
-
-        public Node(int x, int y, int d) {
+        Robot(int x, int y, int d) {
             this.x = x;
             this.y = y;
             this.d = d;
         }
     }
 }
-
-//////////////시도한 예제
-
-//3 3
-//1 9
-//2 2 W
-//1 F 1
-//1 L 1
-//1 F 1
-//1 L 1
-//1 F 2
-//1 L 5
-//1 F 2
-//1 R 3
-//1 F 2
-//ok
-//
-//5 4
-//2 2
-//1 1 E
-//5 4 W
-//1 F 7
-//2 F 7
-//Robot 1 crashes into the wall//
-//
-//5 4
-//2 4
-//1 1 E
-//5 4 W
-//1 F 3
-//2 F 1
-//1 L 1
-//1 F 3
-//Robot 1 crashes into robot 2
-//
-//5 4
-//2 2
-//1 1 E
-//5 4 W
-//1 L 96
-//1 F 2
-//OK//
-//
-//5 4
-//2 3
-//1 1 E
-//5 4 W
-//1 F 4
-//1 L 1
-//1 F 20
-//Robot 1 crashes into robot 2
-//
+// 6시간만에 고침;; 그런데 이전 코드에서 리팩토링한 차이밖에 없는데 왜 되는 지 잘 모르겠음;; 혜승이의 switch 코드가 깔끔한 것 같아 리팩토링할때 참고했음
