@@ -7,18 +7,15 @@ public class Main {
 
     static final int INF = Integer.MAX_VALUE;
     static int N;
-    static List<Node>[] graph;
+    static List<Node>[] from_village, to_village;
 
-    static class Node implements Comparable<Node> {
-        int w;
-        int v;
-        public Node(int w, int v) {
-            this.w = w;
-            this.v = v;
-        }
-        @Override
-        public int compareTo(Node other) {
-            return Integer.compare(this.w, other.w);
+    static class Node {
+        int value;
+        int index;
+
+        public Node(int value, int index) {
+            this.value = value;
+            this.index = index;
         }
     }
 
@@ -31,21 +28,30 @@ public class Main {
         int M = Integer.parseInt(st.nextToken());
         int X = Integer.parseInt(st.nextToken());
 
-        graph = new ArrayList[N + 1];
+        from_village = new ArrayList[N + 1];
+        to_village = new ArrayList[N + 1];
         for (int i = 1; i <= N; i++) {
-            graph[i] = new ArrayList<>();
+            from_village[i] = new ArrayList<>();
+            to_village[i] = new ArrayList<>();
         }
 
         for (int i = 0; i < M; i++) {
             st = new StringTokenizer(br.readLine());
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
-            int c = Integer.parseInt(st.nextToken());
-            graph[a].add(new Node(c, b));
+            int s = Integer.parseInt(st.nextToken());
+            int e = Integer.parseInt(st.nextToken());
+            int t = Integer.parseInt(st.nextToken());
+            from_village[s].add(new Node(t, e));
+            to_village[e].add(new Node(t, s));
         }
+
+        int[] from_x = dijkstra(X, from_village);
+        int[] to_x = dijkstra(X, to_village);
+
         int ans = 0;
         for (int i = 1; i <= N; i++) {
-            ans = Math.max(ans, dijkstra(i, X) + dijkstra(X, i));
+            if (from_x[i] + to_x[i] > ans) {
+                ans = from_x[i] + to_x[i];
+            }
         }
 
         bw.write(ans + "");
@@ -54,27 +60,29 @@ public class Main {
         br.close();
     }
 
-    public static int dijkstra(int start, int end) {
-        PriorityQueue<Node> heap = new PriorityQueue<>();
+    public static int[] dijkstra(int x, List<Node>[] list) {
         int[] distance = new int[N + 1];
-        Arrays.fill(distance, INF);
-        heap.add(new Node(0, start));
-        distance[start] = 0;
-        while (!heap.isEmpty()) {
-            Node p = heap.poll();
-            int now = p.v;
-            int dist = p.w;
-            if (distance[now] < dist) continue;
-            for (Node np : graph[now]) {
-                int next = np.v;
-                int ndist = np.w;
-                int cost = dist + ndist;
-                if (cost < distance[next]) {
-                    distance[next] = cost;
-                    heap.add(new Node(cost, next));
+        boolean[] visited = new boolean[N + 1];
+        PriorityQueue<Node> q = new PriorityQueue<>(Comparator.comparingInt(o -> o.value));
+        q.add(new Node(0, x));
+        int cnt = 0;
+        while (cnt < N) {
+            Node now = q.poll();
+            if (visited[now.index]) {
+                continue;
+            }
+            distance[now.index] = now.value;
+            visited[now.index] = true;
+            cnt++;
+
+            for (Node node : list[now.index]) {
+                if (!visited[node.index]) {
+                    q.add(new Node(node.value + now.value, node.index));
                 }
             }
         }
-        return distance[end];
+        return distance;
     }
+    
 }
+//원재덕에 속도 향상!
