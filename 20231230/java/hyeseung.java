@@ -6,7 +6,7 @@ import java.io.OutputStreamWriter;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
-// 52852KB, 776ms
+// 48172KB, 732ms	
 public class B13334 {
 	
 	static class Path implements Comparable<Path> {
@@ -16,12 +16,9 @@ public class B13334 {
 			this.left = left;
 			this.right = right;
 		}
-		// 오른쪽, 왼쪽 장소 기준으로 정렬
+		// 오른쪽 장소 기준으로 정렬
 		@Override
 		public int compareTo(Path o) {
-			if(this.right == o.right) {
-				return this.left - o.left;
-			}
 			return this.right - o.right;
 		}
 	}
@@ -63,5 +60,5 @@ public class B13334 {
 }
 /*
  우선순위큐
- -> 오른쪽, 왼쪽 순서의 오름차순으로 우선순위를 부여하는 것이 중요함(왼쪽부터 정렬하면 구할 수 없음)
+ -> 오른쪽 기준으로 오름차순으로 우선순위를 부여하는 것이 중요함(왼쪽부터 정렬하면 구할 수 없음)
  */
