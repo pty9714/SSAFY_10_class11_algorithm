@@ -1,5 +1,10 @@
+
+import sys
+sys.setrecursionlimit(10000000)
+
 n,m = map(int,input().split())
 MAX_VALUE = 100000000
+
 dx = [1,-1,0,0]
 dy = [0,0,1,-1]
 
