@@ -1,34 +1,41 @@
-class Solution {
-    public long solution(int[] sequence) {
-        long answer = Integer.MIN_VALUE;
-        int[] plus = new int[sequence.length];
-        int[] minus = new int[sequence.length];
-        
-        for(int i=0; i<sequence.length; i++){
-            if(i % 2 == 0){
-                minus[i] = -1*sequence[i];
-                plus[i] = sequence[i];     
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.StringTokenizer;
+
+public class BaekJoon2293 {
+
+    static int n;
+    static int m;
+    static Integer[] coin;
+    static int answer;
+    static int sum;
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+
+        coin = new Integer[n];
+
+        for(int i=0; i<n; i++)
+            coin[i] = Integer.parseInt(br.readLine());
+
+        int[] dp = new int[m+1];
+        dp[0] = 1;
+        for(int c : coin){
+            for (int i = 1; i <= m; i++) {
+                if (i - c >= 0) {
+                    dp[i] += dp[i - c];
+                }
             }
-            else{
-                minus[i] = sequence[i];
-                plus[i] = -1*sequence[i];     
-            }
         }
-        
-        long[][] dp = new long[sequence.length+1][2];
-        
-        
-        for(int i=1; i<=sequence.length; i++){
-            dp[i][0] = Math.max(dp[i-1][0] + minus[i-1], minus[i-1]);
-            dp[i][1] = Math.max(dp[i-1][1] + plus[i-1], plus[i-1]);
-        }
-        
-        for(int i=1; i<=sequence.length; i++){
-            answer = Math.max(answer, dp[i][0]);
-            answer = Math.max(answer, dp[i][1]);
-        }
-        
-        
-        return answer;
+
+        System.out.println(dp[m]);
     }
+
 }
