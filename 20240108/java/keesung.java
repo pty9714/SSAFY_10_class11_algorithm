@@ -1,18 +1,10 @@
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Solution {
-
-    public static void main(String[] args) throws IOException {
-
-        Solution solution = new Solution();
-        solution.solution(new String[] { "john", "mary", "edward", "sam", "emily", "jaimie", "tod", "young" },
-                new String[] { "-", "-", "mary", "edward", "mary", "mary", "jaimie", "edward" },
-                new String[] { "young", "john", "tod", "emily", "mary" },
-                new int[] { 12, 4, 2, 5, 10 });
-
-    }
 
     public static Map<String, Person> people = new HashMap<>();
 
@@ -62,13 +54,14 @@ public class Solution {
 
         public int go() {
             if (children.size() == 0) {
-                return 0;
+                int give = this.money / 10;
+                this.money -= give;
+                return give;
             }
-            int sumChild = 0;
             for (Person child : children) {
-                sumChild += child.go();
+                int give = child.go();
+                this.money += give;
             }
-            this.money += sumChild;
             int give = this.money / 10;
             this.money -= give;
             return give;
@@ -78,4 +71,7 @@ public class Solution {
 
 }
 
-// 실패 코드. go가 안됨
+// 처음에 int를 go에 전달해줬더니 값이 바뀌지 않았다. 그래서 IntWrapper를 만들어서 전달해주니 값이 바뀌었다.
+// 코드가 좀 복잡해서 별로인 것 같다.
+// bfs 코드이다 결국 한 지점에서 주변 지점 모두 방문하고 한번에 더해주는 방식을 채택하고 있다.
+// 모든 점을 다 확인해서 비효율 적일 수 있다.
