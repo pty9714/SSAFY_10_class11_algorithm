@@ -1,4 +1,3 @@
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,36 +5,44 @@ import java.util.Map;
 
 public class Solution {
 
+    public static void main(String[] args) throws IOException {
+
+        Solution solution = new Solution();
+        solution.solution(new String[] { "john", "mary", "edward", "sam", "emily", "jaimie", "tod", "young" },
+                new String[] { "-", "-", "mary", "edward", "mary", "mary", "jaimie", "edward" },
+                new String[] { "young", "john", "tod", "emily", "mary" },
+                new int[] { 12, 4, 2, 5, 10 });
+
+    }
+
     public static Map<String, Person> people = new HashMap<>();
 
     public int[] solution(String[] enroll, String[] referral, String[] seller, int[] amount) {
 
         // 사람 생성
-        people.put("-", new Person(0));
+        people.put("-", new Person());
         for (int i = 0; i < enroll.length; i++) {
-            people.put(enroll[i], new Person(0));
+            people.put(enroll[i], new Person());
         }
 
         // 사람 연결
         for (int i = 0; i < referral.length; i++) {
             Person parent = people.get(referral[i]);
             Person child = people.get(enroll[i]);
-            parent.children.add(child);
-        }
-
-        // 판매 수익 입력
-        for (int i = 0; i < seller.length; i++) {
-            Person person = people.get(seller[i]);
-            person.money += amount[i] * 100;
+            child.parent = parent;
         }
 
         // dfs
-
-        people.get("-").go();
+        // 판매 수익 입력
+        for (int i = 0; i < seller.length; i++) {
+            Person person = people.get(seller[i]);
+            person.start(amount[i] * 100);
+        }
 
         int[] answer = new int[enroll.length];
         for (int i = 0; i < enroll.length; i++) {
             answer[i] = people.get(enroll[i]).money;
+            answer[i] += people.get(enroll[i]).childMoney;
             System.out.println(answer[i]);
         }
 
@@ -44,34 +51,37 @@ public class Solution {
 
     public static class Person {
 
-        private int money;
-        private ArrayList<Person> children;
+        private int money = 0;
+        private int childMoney = 0;
 
-        public Person(int money) {
-            this.money = money;
-            this.children = new ArrayList<>();
+        private Person parent;
+
+        public Person() {
         }
 
-        public int go() {
-            if (children.size() == 0) {
-                int give = this.money / 10;
-                this.money -= give;
-                return give;
+        public void go(int childMoney) {
+            if (parent == null) {
+                return;
             }
-            for (Person child : children) {
-                int give = child.go();
-                this.money += give;
+            int goMoney = childMoney / 10;
+            this.childMoney += childMoney - goMoney;
+            parent.go(goMoney);
+        }
+
+        public void start(int money) {
+            if (parent == null) {
+                return;
             }
-            int give = this.money / 10;
-            this.money -= give;
-            return give;
+            int goMoney = money / 10;
+            this.money += money - goMoney;
+            parent.go(goMoney);
         }
 
     }
 
 }
 
-// 처음에 int를 go에 전달해줬더니 값이 바뀌지 않았다. 그래서 IntWrapper를 만들어서 전달해주니 값이 바뀌었다.
-// 코드가 좀 복잡해서 별로인 것 같다.
-// bfs 코드이다 결국 한 지점에서 주변 지점 모두 방문하고 한번에 더해주는 방식을 채택하고 있다.
-// 모든 점을 다 확인해서 비효율 적일 수 있다.
+// 변수 처리 개귀찮음
+// 아래에서 위로 하나씩 올려야 하는 구조
+// dfs로 다 더해놓고 한번에 나누는게 아님
+// 문제 이해하기 좀 힘들었음
