@@ -22,6 +22,7 @@ public class B2169 {
 				region[i][j] = Integer.parseInt(st.nextToken());
 			}
 		}
+
 		// 초기화 (음수가 있을 수도 있으므로 -최대 int로)
 		for (int i = 0; i <= N + 1; i++) {
 			for (int j = 0; j <= M + 1; j++) {
@@ -29,6 +30,7 @@ public class B2169 {
 				dp[i][j][1] = -Integer.MAX_VALUE;
 			}
 		}
+
 		// 첫째줄은 무조건 오른쪽으로만 이동
 		dp[1][1][0] = region[0][0];
 		dp[1][1][1] = region[0][0];
@@ -36,6 +38,7 @@ public class B2169 {
 			dp[1][i][0] = dp[1][i-1][0] + region[0][i-1];
 			dp[1][i][1] = dp[1][i-1][1] + region[0][i-1];
 		}
+
 		// 오른쪽으로 이동한 경우 & 왼쪽으로 이동한 경우 max값 구하기
 		for (int i = 2; i <= N; i++) {
 			// 오른쪽으로 이동한 경우
@@ -47,6 +50,7 @@ public class B2169 {
 				dp[i][j][1] = Math.max(dp[i][j+1][1], Math.max(dp[i-1][j][0], dp[i-1][j][1])) + region[i-1][j-1];
 			}
 		}
+
 		bw.write(Math.max(dp[N][M][0], dp[N][M][1]) + "");
 		bw.flush();
 		bw.close();
