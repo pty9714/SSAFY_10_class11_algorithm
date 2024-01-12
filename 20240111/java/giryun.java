@@ -15,37 +15,35 @@ public class Main {
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
 
-        board = new int[N + 1][M + 1];
-        dp = new int[N + 1][M + 1][3];
+        board = new int[N][M];
+        dp = new int[N + 1][M + 2][2];
 
-        for (int i = 1; i <= N; i++) {
+        for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
-            for(int j = 1; j <= M; j++) {
+            for(int j = 0; j < M; j++) {
                 board[i][j] = Integer.parseInt(st.nextToken());
             }
         }
 
         for (int i = 0; i <= N; i++) {
-            for (int j = 0; j <= M; j++) {
+            for (int j = 0; j <= M + 1; j++) {
                 dp[i][j][0] = Integer.MIN_VALUE;
                 dp[i][j][1] = Integer.MIN_VALUE;
-                dp[i][j][2] = Integer.MIN_VALUE;
             }
         }
 
-        dp[1][1][0] = board[1][1];
-        dp[1][1][1] = board[1][1];
-        dp[1][1][2] = board[1][1];
-
-        for (int i = 1; i <= N; i++) {
+        dp[1][1][0] = board[0][0];
+        dp[1][1][1] = board[0][0];
+        for (int j = 2; j <= M; j++) {
+            dp[1][j][0] = dp[1][j - 1][0] + board[0][j-1];
+            dp[1][j][1] = dp[1][j - 1][1] + board[0][j-1];
+        }
+        for (int i = 2; i <= N; i++) {
             for (int j = 1; j <= M; j++) {
-                if (j > 1)
-                    dp[i][j][0] = Math.max(dp[i][j - 1][0], dp[i][j - 1][1]) + board[i][j];
-                if (i > 1)
-                    dp[i][j][1] = Math.max(dp[i - 1][j][0], Math.max(dp[i - 1][j][1], dp[i - 1][j][2])) + board[i][j];
+                dp[i][j][0] = Math.max(dp[i][j - 1][0], Math.max(dp[i - 1][j][0], dp[i - 1][j][1])) + board[i - 1][j - 1];
             }
-            for (int j = M - 1; j >= 1; j--) {
-                dp[i][j][2] = Math.max(dp[i][j + 1][1], dp[i][j + 1][2]) + board[i][j];
+            for (int j = M; j >= 1; j--) {
+                dp[i][j][1] = Math.max(dp[i][j + 1][1], Math.max(dp[i - 1][j][0], dp[i - 1][j][1])) + board[i - 1][j - 1];
             }
         }
         bw.write(Math.max(dp[N][M][0], dp[N][M][1]) + "");
