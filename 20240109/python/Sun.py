@@ -16,3 +16,5 @@ for i in range(2,N):
             end -=1
 
 print(answer)
+
+#음수가 있네? 곧 수정예정
