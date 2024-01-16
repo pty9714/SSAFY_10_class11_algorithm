@@ -1,5 +1,6 @@
 import java.util.*;
 
+//메모리: 75.2 MB, 시간: 0.93 ms
 class Solution {
     public class Point {
         int x, y, t;
