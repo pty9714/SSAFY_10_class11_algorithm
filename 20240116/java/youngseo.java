@@ -1,6 +1,6 @@
 import java.util.*;
 
-//3개 틀리는데 이유를 모르겟음... 일단 답지 내고 생각해봄
+//3개 틀리는데 이유를 모르겟음... 일단 답지 내고 생각해봄 
 class Solution {
     public int[] solution(int[][] edges) {
         Map<Integer, int[]> map = new HashMap<>();
