@@ -1,3 +1,5 @@
+//테스트 14 〉	통과 (132.43ms, 20.7MB)
+
 def solution(s):
     
     s = s.replace("{","")
