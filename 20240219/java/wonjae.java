@@ -21,6 +21,12 @@ public class B1327 {
 
         StringBuilder sb = new StringBuilder();
 
+        StringBuilder answer_string = new StringBuilder();
+
+        for(int i = 1; i <= n; i++){
+            answer_string.append(i);
+        }
+
         st = new StringTokenizer(br.readLine());
         for(int i = 0; i < n; i++){
             sb.append(st.nextToken());
@@ -38,7 +44,7 @@ public class B1327 {
 
         while (!pq.isEmpty()){
             curr = pq.poll();
-            if(checkAsc(curr.s)){
+            if(curr.s.contentEquals(answer_string)){
                 answer = curr.depth;
                 break;
             }
@@ -72,14 +78,5 @@ public class B1327 {
             sb.setCharAt(idx+k-i-1, temp);
         }
         return sb.toString();
-    }
-
-    public static boolean checkAsc(String permutation){
-        for(int i = 0; i < permutation.length(); i++){
-            if(Integer.parseInt(String.valueOf(permutation.charAt(i))) != i+1){
-                return false;
-            }
-        }
-        return true;
     }
 }
