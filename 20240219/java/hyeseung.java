@@ -32,8 +32,7 @@ public class B1327 {
         for (int i = 0; i < N; i++) {
             sortedSeqStr += seq[i];
         }
-        int ans = bfs(seqStr, sortedSeqStr);
-        bw.write(ans + "");
+        bw.write(bfs(seqStr, sortedSeqStr) + "");
         bw.flush();
         bw.close();
         br.close();
