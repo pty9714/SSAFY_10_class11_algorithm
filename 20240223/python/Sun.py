@@ -16,6 +16,7 @@ else:
         else:
             l2[i] = l2[i-1]
     l2[-1] = l2[-2]
+    
 m = int(input())
 for i in range(m):
     a, b = map(int,input().split())
