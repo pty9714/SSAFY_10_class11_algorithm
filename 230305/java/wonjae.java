@@ -29,6 +29,7 @@ public class B2098 {
             }
         }
 
+
         System.out.println(dfs(0, 1));
     }
 
@@ -38,6 +39,7 @@ public class B2098 {
             return table[curr][0];
         }
         if(dp[curr][visited] > 0) return dp[curr][visited];
+        if(dp[curr][visited] == 0 ) return 0;
 
         for(int i = 1; i < n; i++){
             if((visited & (1 << i)) != 0 || table[curr][i] == 0) continue;
