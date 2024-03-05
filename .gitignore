@@ -31,4 +31,4 @@ untitled/
 out/
 *.project
 .vscode/
-Main.java
+Main.java.DS_Store
