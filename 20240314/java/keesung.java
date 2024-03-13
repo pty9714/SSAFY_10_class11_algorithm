@@ -1,70 +1,73 @@
-package src;
+import java.util.*;
+import java.io.*;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Set;
-import java.util.StringTokenizer;
-
-public class Solution {
+class Main {
+    static int N, K;
+    static int[] time = new int[100001];
+    static int minTime = 987654321;
+    static int count = 0;
 
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int N = Integer.parseInt(st.nextToken());
-        int K = Integer.parseInt(st.nextToken());
+        StringTokenizer st;
 
-        HashMap<Integer, Integer> visited = new HashMap<>();
+        st = new StringTokenizer(br.readLine());
+        N = Integer.parseInt(st.nextToken());
+        K = Integer.parseInt(st.nextToken());
 
-        Queue<int[]> queue = new LinkedList<>();
-
-        queue.add(new int[] { 0, N });
-        int time = Integer.MAX_VALUE;
-        int way = 0;
-        visited.put(N, 0);
-        while (!queue.isEmpty()) {
-            int[] data = queue.poll();
-            int repeat = data[0];
-            int point = data[1];
-            if (point < 0) {
-                continue;
-            }
-            if (repeat > time) {
-                break;
-            }
-            if (point == K) {
-                time = repeat;
-                way++;
-                continue;
-            }
-            int next = repeat + 1;
-            addToQueue(queue, visited, point + 1, next);
-            addToQueue(queue, visited, point - 1, next);
-            addToQueue(queue, visited, point * 2, next);
-        }
-
-        System.out.println(time);
-        System.out.println(way);
-
-    }
-
-    public static void addToQueue(Queue<int[]> queue, HashMap<Integer, Integer> visited, int point, int next) {
-        if (point < 0) {
+        if (N >= K) {
+            System.out.println((N - K) + "\n1");
             return;
         }
-        if (visited.containsKey(point) && visited.get(point) < next) {
-            return;
-        }
-        queue.add(new int[] { next, point });
-        visited.put(point, next);
+
+        bfs();
+
+        System.out.println(minTime + "\n" + count);
     }
 
+    static void bfs() {
+        Queue<Integer> q = new LinkedList<Integer>();
+
+        q.add(N);
+        time[N] = 1;
+
+        while (!q.isEmpty()) {
+            int now = q.poll();
+
+            // now 방문 시간이 최소 시간보다 크면 뒤는 더 볼 필요 없음
+            if (minTime < time[now])
+                return;
+
+            for (int i = 0; i < 3; i++) {
+                int next;
+
+                if (i == 0)
+                    next = now + 1;
+                else if (i == 1)
+                    next = now - 1;
+                else
+                    next = now * 2;
+
+                if (next < 0 || next > 100000)
+                    continue;
+
+                if (next == K) {
+                    minTime = time[now];
+                    count++;
+                }
+
+                // 첫 방문이거나 (time[next] == 0)
+                // 이미 방문한 곳이어도 같은 시간에 방문했다면 (time[next] == time[now] + 1)
+                // 경우의 수에 추가될 수 있기 때문에 Queue 에 한번 더 넣어줌
+                if (time[next] == 0 || time[next] == time[now] + 1) {
+                    q.add(next);
+                    time[next] = time[now] + 1;
+                }
+            }
+        }
+    }
 }
 
-// bfs
-// 각 경우의 수에 따라서 queue 활용하기
-// 방문처리 했는데도 안됨
+// Queue에 넣을 때 애초에 배열로 넣지 않고 int만 넣을 수 있음.
+// 배열로 넣어서 메모리를 2배로 썼던게 문제
+// 시간은 배열로 사용하지 않고 어차피 한번만 측정하기 때문에 따로 빼서 기록해두어도 됨
