@@ -32,3 +32,4 @@ out/
 *.project
 .vscode/
 Main.java.DS_Store
+.DS_Store
