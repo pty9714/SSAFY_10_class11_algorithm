@@ -1,6 +1,6 @@
 import java.io.*;
 import java.util.StringTokenizer;
-// 15104KB, 240ms
+// 14720KB, 248ms
 public class B11049 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -15,9 +15,6 @@ public class B11049 {
             matrix[i][1] = Integer.parseInt(st.nextToken());
         }
         for (int i = 1; i < N; i++) {
-            dp[i][i + 1] = matrix[i][0] * matrix[i][1] * matrix[i + 1][1];
-        }
-        for (int i = 2; i < N; i++) {
             for (int first = 1; first + i <= N; first++) {
                 int last = i + first;
                 dp[first][last] = Integer.MAX_VALUE;
