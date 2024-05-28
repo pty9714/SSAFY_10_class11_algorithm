@@ -73,6 +73,7 @@ public class Main {
 
             if(change)
                 time++;
+            
         }
 
         System.out.println(time);
