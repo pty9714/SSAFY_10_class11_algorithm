@@ -1,120 +1,83 @@
 import java.io.*;
 import java.util.*;
 
-public class b14890
-{
-    public static void main(String[] args) throws IOException {
+public class B16234 {
+    static int N,L,R;
+    static int [][] board ;
+    static int [][] visited;
+    static int [] dx = {1, 0, -1 ,0};
+    static int [] dy = {0 , 1, 0, -1};
+    static int sum = 0;
+    static int cnt =0;
+
+    public static void dfs(int x, int y, int now){
+
+        if(visited[x][y]  != 0){
+            return;
+        }
+        sum += board[x][y];
+        cnt ++;
+        visited[x][y] = now;
+        for (int i = 0; i < 4; i++) {
+            int nextX = x + dx[i];
+            int nextY = y + dy[i];
+            if (nextX >= 0 && nextX < N && nextY >= 0 && nextY < N) {
+                int abs = Math.abs(board[x][y] - board[nextX][nextY]);
+                if (visited[nextX][nextY] == 0 && abs >= L && abs <= R) {
+                    dfs(nextX,  nextY, now);
+                }
+            }
+        }
+    }
+
+    public static void main(String []args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int N, L;
-
         N = Integer.parseInt(st.nextToken());
         L = Integer.parseInt(st.nextToken());
+        R = Integer.parseInt(st.nextToken());
+        board = new int[N][N];
+        visited = new int[N][N];
+        int day =0;
 
-        int[][] map = new int[N][N];
-        for (int i = 0; i < N; i++) {
+        for(int i=0; i<N; i++){
             st = new StringTokenizer(br.readLine());
-            for (int j = 0; j < N; j++) {
-                map[i][j] = Integer.parseInt(st.nextToken());
-
-            }
-
-        }
-        int answer = 0;
-        for (int i = 0; i < N; i++) {
-            int before = map[i][0];
-            int beforeLen = 1;
-            int type = 0;
-            boolean isAvailable = true;
-            for (int j = 1; j < N; j++) {
-                if (type == 0) {
-                    if (map[i][j] == before) {
-                        beforeLen++;
-                    } else if (map[i][j] - before == 1 && beforeLen >= L) {
-                        before = map[i][j];
-                        beforeLen = 1;
-                    } else if (map[i][j] - before > 1 || (map[i][j] - before == 1 && beforeLen < L)) {
-                        isAvailable = false;
-                        break;
-                    } else {
-                        type = 1;
-                        beforeLen = 0;
-                    }
-                }
-                if (type == 1) {
-                    if (map[i][j] == before - 1) {
-                        beforeLen += 1;
-                    } else {
-                        type = 0;
-                        isAvailable = false;
-                        beforeLen = 0;
-                        before = map[i][j];
-                        break;
-                    }
-                    if (beforeLen >= L) {
-                        type = 0;
-                        before = map[i][j];
-                        beforeLen = 0;
-                    }
-                }
-            }
-            if (type == 1 && beforeLen < L) {
-                continue;
-            }
-            if (isAvailable) {
-//                System.out.println("answer++ i=" + i);
-                answer++;
+            for(int j=0; j<N; j++){
+                board[i][j] = Integer.parseInt(st.nextToken());
             }
         }
 
-        for (int i = 0; i < N; i++) {
-            int before = map[0][i];
-            int beforeLen = 1;
-            int type = 0;
-            boolean isAvailable = true;
-            for (int j = 1; j < N; j++) {
-                if (type == 0) {
-                    if (map[j][i] == before) {
-                        beforeLen++;
-                    } else if (map[j][i] - before == 1 && beforeLen >= L) {
-                        before = map[j][i];
-                        beforeLen = 1;
-                    } else if (map[j][i] - before > 1 || (map[j][i] - before == 1 && beforeLen < L)) {
-                        isAvailable = false;
-                        break;
-                    } else {
-                        type = 1;
-                        beforeLen = 0;
-                    }
-                }
-                if (type == 1) {
-                    if (map[j][i] == before - 1) {
-                        beforeLen += 1;
-                    } else {
-                        type = 0;
-                        isAvailable = false;
-                        beforeLen = 0;
-                        before = map[j][i];
-                        break;
-                    }
-                    if (beforeLen >= L) {
-                        type = 0;
-                        before = map[j][i];
-                        beforeLen = 0;
-                    }
-                }
-            }
-            if (type == 1 && beforeLen < L) {
-                continue;
-            }
-            if (isAvailable) {
-//                System.out.println(" chapter 2 answer++ i=" + i);
-                answer++;
-            }
-        }
+        while (true){
+            int nNow = 1;
+            List<Integer> avgList = new ArrayList<>();
+            boolean isEnd = true;
+            for(int i=0; i<N; i++){
+                for(int j=0; j<N; j++){
+                    if(visited[i][j] == 0){
+//                        System.out.printf("i=%d , j=%d \n", i, j);
+                        dfs(i, j, nNow);
+                        avgList.add(sum/cnt);
+                        nNow +=1;
+                        if(cnt>1){
+                            isEnd = false;
+                        }
+                        sum = 0;
+                        cnt = 0;
 
-        System.out.println(answer);
+                    }
+                }
+            }
+            if (isEnd)
+                break;
+            day++;
+            for(int i=0; i<N; i++){
+                for(int j=0; j<N; j++){
+                    board[i][j] = avgList.get(visited[i][j] - 1);
+                }
+            }
+            visited = new int[N][N];
+        }
+        System.out.println(day);
     }
-
 }
