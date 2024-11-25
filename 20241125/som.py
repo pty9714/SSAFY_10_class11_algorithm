@@ -19,7 +19,6 @@ def water(board):
                     if R > nx >= 0 and C > ny >= 0 and board[nx][ny] == ".":
                         n_water[nx][ny] = "*"
     return n_water
-
 x, y = 0, 0
 end_x, end_y = 0, 0
 for i in range(R):
